@@ -7,14 +7,14 @@
 
     <link rel="manifest" href="manifest.json">
 
-    <!-- un-comment this code to enable service worker
+    
     <script>
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('service-worker.js')
           .then(() => console.log('service worker installed'))
           .catch(err => console.log('Error', err));
       }
-    </script>-->
+    </script>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
@@ -29,7 +29,13 @@
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
-    <script src="js/controllers.js"></script>
+    <script src="js/service/service.js"></script>
+    <script src="js/directive/directive.js"></script>
+    <script src="js/controllers/bookstore/bookstoreCtrl.js"></script>
+    <script src="js/controllers/bookshelf/bookshelfCtrl.js"></script>
+    <script src="js/controllers/self/selfCtrl.js"></script>
+    <script src="js/loginCtrl.js"></script>
+    <script src="js/mainCtrl.js"></script>
   </head>
 
   <body ng-app="starter">
