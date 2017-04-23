@@ -7,7 +7,7 @@ app.directive('bfAssertEquals',function (){
        require:'ngModel',
        link:function(scope,element,attrs,ngModel){
            var isSame=function(value){
-               var second = scope.$eval(attrs.bfAssertEquals);
+               var second = scope.$eval(attrs.bfAssertEquals); 
                return value == second;
            }
            ngModel.$parsers.push(function(value){
@@ -18,6 +18,7 @@ app.directive('bfAssertEquals',function (){
                function(){
                    return scope.$eval(attrs.bfAssertEquals);
                },function(){
+                console.log(ngModel.$modelValue);
                    ngModel.$setValidity('same',isSame(ngModel.$modelValue));
                }
            );
@@ -60,7 +61,7 @@ app.directive('onFinishRender',function(){
 
 
  
-.directive('usernameValidator', ['$log', function($log) {
+app.directive('usernameValidator', ['$log', function($log) {
     return {
         restrict: 'A',
         require: 'ngModel',

@@ -1,17 +1,17 @@
-app.service('httpService',['$http','$q','config','$location','$timeout',function($http,$q,config,$location,$timeout){
-    var rootPath=config.backendPrefix||$location.protocol()+'://'+$location.host()+':'+$location.port();
+'use strict';
+app.service('httpService',['$http','$q','Config','$location','$timeout',function($http,$q,config,$location,$timeout){
+    var rootPath=config.serverUrl;
 
     function getUrl(url){
-        if(url.startWith('http')){
+        if(url.startsWith('http')){
             return url;
-        }
-        return rootPath+url;
+        } 
     }
 
     return{
         post:function(url,param,config){
             url=getUrl(url);
-            return $http.post(url, $.param(param||{}), angular.extend({},{headers: {'Content-Type': 'application/x-www-form-urlencoded'}},config));
+            return $http.post(url, param), angular.extend({},{headers: {'Content-Type': 'application/x-www-form-urlencoded'}},config);
         },
         get:function(url,config){
             url=getUrl(url);
