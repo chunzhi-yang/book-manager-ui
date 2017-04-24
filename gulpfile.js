@@ -133,7 +133,8 @@
 gulp.task('watch',function(){
 
   gulp.watch( env.src.scss('**/*.scss'), ['sass'] );
-  gulp.watch( env.src.file('**/*'), ['minify'] );
+  gulp.watch( env.src.lib('**/*'), ['vendors'] ); 
+   gulp.watch( env.src.js('**/*'), ['minify'] );
 });
 gulp.task('git-check', function(done) {
   if (!sh.which('git')) {
