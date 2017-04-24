@@ -10,7 +10,6 @@
     "gulp-rename": "^1.2.0"
   },
   "devDependencies": {
-    "angular-md5": "^0.1.10",
     "bower": "^1.7.9",
     "browser-sync": "^2.17.3",
     "del": "^2.2.2",

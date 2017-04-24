@@ -47,22 +47,22 @@ var app=angular.module('starter', ['ionic', 'starter.controllers'])
   })
   .state('login.signin', {
     url: '/signin',
-    templateUrl: 'views/login_signin.html',
+    templateUrl: 'login_signin.html',
     controller: 'loginCtrl'
   })
   .state('login.forget', {
     url: '/forget',
-    templateUrl: 'views/login_forget.html',
+    templateUrl: 'login_forget.html',
     controller: 'loginCtrl'
   })
   .state('login.signup', {
     url: '/signup',
-    templateUrl: 'views/login_signup.html',
+    templateUrl: 'login_signup.html',
     controller: 'loginCtrl'
   })
   .state('login.changepassword', {
     url: '/changepassword/:account',
-    templateUrl: 'views/login_changepassword.html',
+    templateUrl: ' login_changepassword.html',
     controller: 'navsCtrl'
   })
   .state('app', {
@@ -88,7 +88,7 @@ var app=angular.module('starter', ['ionic', 'starter.controllers'])
   // if none of the  states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/bookshelf');
 }]);
-
+'use strict';
 app.factory('myHttpInterceptor',['$q', '$injector',function($q, $injector){
     return {
         request: function (config) {
