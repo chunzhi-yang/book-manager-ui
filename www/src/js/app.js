@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-var app=angular.module('starter', ['ionic', 'starter.controllers'])
+angular.module('starter', ['ionic', 'starter.controllers'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -40,32 +40,8 @@ var app=angular.module('starter', ['ionic', 'starter.controllers'])
     $ionicConfigProvider.platform.android.views.transition('android');
 
     $stateProvider
-  .state('login', {
-    url: '/login',
-    abstract: true,
-    template: '<ion-nav-view></ion-nav-view>',
-  })
-  .state('login.signin', {
-    url: '/signin',
-    templateUrl: 'login_signin.html',
-    controller: 'loginCtrl'
-  })
-  .state('login.forget', {
-    url: '/forget',
-    templateUrl: 'login_forget.html',
-    controller: 'loginCtrl'
-  })
-  .state('login.signup', {
-    url: '/signup',
-    templateUrl: 'login_signup.html',
-    controller: 'loginCtrl'
-  })
-  .state('login.changepassword', {
-    url: '/changepassword/:account',
-    templateUrl: ' login_changepassword.html',
-    controller: 'navsCtrl'
-  })
-  .state('app', {
+
+    .state('app', {
     url: '/app',
     abstract: true,
     templateUrl: 'views/tabs.html'
@@ -73,7 +49,9 @@ var app=angular.module('starter', ['ionic', 'starter.controllers'])
 
   .state('app.bookshelf', {
     url: '/bookshelf',
-    templateUrl: 'views/bookshelf/bookshelf-index.html'    
+    templateUrl: 'views/bookshelf/bookshelf-index.html'
+     
+    
   })
    .state('app.bookstore', {
     url: '/bookstore',
@@ -88,52 +66,3 @@ var app=angular.module('starter', ['ionic', 'starter.controllers'])
   // if none of the  states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/bookshelf');
 }]);
-'use strict';
-app.factory('myHttpInterceptor',['$q', '$injector',function($q, $injector){
-    return {
-        request: function (config) {
-            //TODO 带上未知属性会产生一个options请求问题
-            var requestUrl = config.url;
-            var $location = $injector.get('$location');
-
-
-            var absUrl = $location.absUrl();
-            //  config.headers['X-Access-Url'] = absUrl;
-            //  config.headers['Cookie'] = 'JSESSIONID=901A45116F7EFC0253F6F30CE023A740';
-
-            return config;
-        },
-        requestError: function(rejection) {
-            return $q.reject(rejection);
-        },
-        response: function (response) {
-
-            return response;
-        },
-        responseError: function(rejection) {
-            var $state = $injector.get('$state');
-            if(rejection.status === 401){
-                $state.go("login.signin");
-            }else if(rejection.status === 500) {
-                var data=rejection.data;
-                if(data.error){
-                    try{
-                        swal("系统错误");
-
-                    }catch(e){}
-                }else{
-                    $state.go('error.500');
-                }
-            }else if(rejection.status === 404){
-                try{
-                    swal('页面不存在','您要访问的页面不存在');
-
-                }catch(e){}
-            }else{
-               $state.go('login.signin');
-           }
-            return $q.reject(rejection);
-        }
-    };
-}]);
-
