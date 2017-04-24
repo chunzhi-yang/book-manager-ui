@@ -1,11 +1,14 @@
 'use strict';
 app.controller('loginCtrl',['httpService','$scope','Config','$http',
 	function(httpService,$scope,config,$http){
-	$scope.doCreate = function(regist){
-		var param = {username:regist.userName};
+	$scope.doCreate = function(){
+	
+		var param = {username:$scope.regist.userName};
 		RSAUtils.setMaxDigits(200);
 		var key = new RSAUtils.getKeyPair($scope.publicKeyExponent,"",$scope.publicKeyModulus);
-		var reversedPwd = $scope.password.split('').reverse().join('');
+
+		var reversedPwd = $scope.regist.userPassword.split('').reverse().join('');
+		console.log(reversedPwd);
 		var encryptedPwd = RSAUtils.encryptedString(key,reversedPwd);
 		param.password = encryptedPwd;
 		$http.post(config.serverUrl+'/login/signin',param).then(function(r){

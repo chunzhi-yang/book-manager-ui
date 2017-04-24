@@ -18,7 +18,7 @@ app.directive('bfAssertEquals',function (){
                function(){
                    return scope.$eval(attrs.bfAssertEquals);
                },function(){
-                console.log(ngModel.$modelValue);
+                 
                    ngModel.$setValidity('same',isSame(ngModel.$modelValue));
                }
            );
