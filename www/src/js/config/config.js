@@ -1,5 +1,5 @@
 app.constant('Config',{
-	serverUrl:'http://192.168.199.146:8080/book-manager-api/',	
-    avatarPrefix:'http:// 192.168.199.146:8080/app/downloadAvatar?url=',
-    photoPrefix:'http:// 192.168.199.146:8080/app/downloadPhoto?url='
+	serverUrl:'http://127.0.0.1:8080/book-manager-api/',	
+    avatarPrefix:'http://127.0.0.1:8080/app/downloadAvatar?url=',
+    photoPrefix:'http://127.0.0.1:8080/app/downloadPhoto?url='
 });

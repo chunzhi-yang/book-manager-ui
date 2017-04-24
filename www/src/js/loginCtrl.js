@@ -12,15 +12,13 @@ app.controller('loginCtrl',['httpService','$scope','Config','$http',
 			console.log(r);
 		});
 	}
-	$http.get(config.serverUrl+'/login/publicKey',{'headers': {
-          'Content-Disposition': 'multipart/form-data',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'POST, PUT, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type'
-
-        }}).then(function(data){
+	var p = httpService.get('login/getRSAPublicKey');
+	console.log(p);
+	p.then(function(data){
 		$scope.publicKeyExponent = data.data.publicKeyExponent;
 		$scope.publicKeyModulus = data.data.publicKeyModulus;		
+	},function(e){
+		console.log(e);
 	});
 
 	$scope.doLogin = function(){

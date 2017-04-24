@@ -1,11 +1,13 @@
 'use strict';
-app.service('httpService',['$http','$q','Config','$location','$timeout',function($http,$q,config,$location,$timeout){
-    var rootPath=config.serverUrl;
+app.service('httpService',['$http','Config',function($http,configs){
+     
 
     function getUrl(url){
         if(url.startsWith('http')){
             return url;
-        } 
+        } else{
+            return configs.serverUrl+url;
+        }
     }
 
     return{
@@ -24,6 +26,6 @@ app.service('httpService',['$http','$q','Config','$location','$timeout',function
         'delete':function(url){
             url=getUrl(url);
             return $http['delete'](url, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
-        }
+        },
     }
 }]);
