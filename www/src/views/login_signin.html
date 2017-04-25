@@ -13,7 +13,7 @@
              <div class="list">
                 <label class="item item-input">
                     <span class="input-label">账号</span>
-                    <input type="text" name="userName" placeholder="账号/邮箱" ng-model="loginForm.userName" ng-maxlength="50" required>
+                    <input type="text" name="userName" placeholder="账号/邮箱" ng-model="login.userName" ng-maxlength="50" required>
 
                 </label>
                   <span ng-messages="loginForm.userName.$dirty&&loginForm.userName.$error" style="color:maroon" class="item" role="alert">
@@ -22,14 +22,14 @@
                     </span>
                 <label class="item item-input">
                      <span class="input-label"> 密码</span>
-                     <input type="password" name="myPassword"  placeholder="请输入密码" ng-model="loginForm.userPassword"  ng-maxlength="30" required>
+                     <input type="password" name="myPassword"  placeholder="请输入密码" ng-model="login.userPassword"  ng-maxlength="30" required>
 
                 </label>
                   <span  style="color:maroon" ng-messages="loginForm.myPassword.$dirty && loginForm.myPassword.$error"  class="item" role="alert">
                         <div ng-message="required" class="link-right">密码不能为空</div>
                         <div ng-message="minlength,maxlength" class="link-right">密码长度为6到30位</div>
                     </span>
-                <ion-checkbox name="isKept" ng-model="loginForm.remeberMe" class="checkbox-balanced"><span class="font-small">记住我</span></ion-checkbox>
+                <ion-checkbox name="isKept" ng-model="login.remeberMe" class="checkbox-balanced"><span class="font-small">记住我</span></ion-checkbox>
                 <button type="submit"  ng-disabled="loginForm.$invalid" ng-click="doLogin()" class="button button-block button-balanced">登录</button>
                 <a class="link-right link-regist" ui-sref="login.forget">
                 忘记密码
