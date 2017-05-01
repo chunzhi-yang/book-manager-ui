@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-var app=angular.module('starter', ['ionic', 'starter.controllers'])
+var app=angular.module('starter', ['ionic', 'ngFileUpload'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -50,11 +50,7 @@ var app=angular.module('starter', ['ionic', 'starter.controllers'])
     templateUrl: 'views/login_signin.html',
     controller: 'loginCtrl'
   })
-  .state('login.forget', {
-    url: '/forget',
-    templateUrl: 'views/login_forget.html',
-    controller: 'loginCtrl'
-  })
+
   .state('login.signup', {
     url: '/signup',
     templateUrl: 'views/login_signup.html',
@@ -73,18 +69,42 @@ var app=angular.module('starter', ['ionic', 'starter.controllers'])
 
   .state('app.bookshelf', {
     url: '/bookshelf',
-    templateUrl: 'views/bookshelf/bookshelf-index.html'    
+    templateUrl: 'views/bookshelf/bookshelf-index.html',
+    controller: 'bookshelfCtrl'
   })
    .state('app.bookstore', {
-    url: '/bookstore',
-    templateUrl: 'views/bookstore/bookstore.html'
-      
+      url: '/bookstore',
+      abstract: true,
+      template: '<ion-nav-view></ion-nav-view>',
   })
-   .state('app.self', {
-    url: '/self',
-    templateUrl: 'views/self/self-index.html'
-      
-  });
+      .state('app.bookstore.index', {
+    url: '/index',
+    templateUrl: 'views/bookstore/bookstore.html',
+    controller: 'bookstoreCtrl'
+
+  })
+      .state('app.bookstore.detail', {
+        url: '/detail/:id',
+        templateUrl: 'views/bookstore/bookstore-detail.html',
+        controller: 'bookstoreDetailCtrl'
+
+      })
+  .state('app.self', {
+      url: '/self',
+      abstract: true,
+      template: '<ion-nav-view></ion-nav-view>',
+
+  })
+    .state('app.self.index', {
+    url: '/index',
+    templateUrl: 'views/self/self-index.html',
+    controller: 'selfCtrl'
+  })
+      .state('app.self.edit', {
+        url: '/edit/:account',
+        templateUrl: 'views/self/self-edit.html',
+        controller: 'selfEditCtrl'
+      });
   // if none of the  states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/bookshelf');
 }]);

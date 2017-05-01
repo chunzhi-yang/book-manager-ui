@@ -25,7 +25,7 @@
  // setup environment configuration
  var path = function(prefix){
    var conPath = {
-     scssPath: '/scss', 
+     scssPath: '/scss',
      cssPath  : '/css' ,
      jsPath   : '/js' ,
      imgPath  : '/img',
@@ -119,13 +119,13 @@
  });
  // minify all the resource in temp then copy to dist
  gulp.task('minify', function() {
- 
+
      gulp.src( [env.src.file('**/*'), '!' +env.src.file('/lib/**/*'),'!'+env.src.scss('**/*')])
        .pipe($.if('*.js', $.uglify({mangle: false}).on('error',$.util.log)))
        .pipe($.if('*.css', $.cleanCss()))
        .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
         .pipe($.if('img/**/*.*',$.imagemin())
-       .pipe(gulp.dest( env.dst.dir() )) 
+       .pipe(gulp.dest( env.dst.dir() ))
        )
  });
 
@@ -133,9 +133,10 @@
 gulp.task('watch',function(){
 
   gulp.watch( env.src.scss('**/*.scss'), ['sass'] );
-  gulp.watch( env.src.lib('**/*'), ['vendors'] ); 
+  gulp.watch( env.src.lib('**/*'), ['vendors'] );
    gulp.watch( env.src.js('**/*'), ['minify'] );
-    gulp.watch( env.src.file('views/**/*.*'),['minify']);
+  gulp.watch( env.src.css('**/*'), ['minify'] );
+    gulp.watch( env.src.file('views/**/*.html'),['minify']);
 });
 gulp.task('git-check', function(done) {
   if (!sh.which('git')) {

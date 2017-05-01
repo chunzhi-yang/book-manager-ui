@@ -1,0 +1,15 @@
+.tabs-top.card{
+  margin:20px 0;
+}
+.ellipsis{
+  text-overflow:ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 60%
+}
+.list.pad-top{
+  padding-top: 50px;
+  .item{
+    padding-top: 5px;
+  }
+}

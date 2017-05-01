@@ -1,37 +1,57 @@
 'use strict';
-app.controller('loginCtrl',['httpService','$scope','Config','$http',
-	function(httpService,$scope,config,$http){
+app.controller('loginCtrl',['httpService','$scope','$location','curUserService','$ionicPopup',
+	function(httpService,$scope,$location,curUserService,$ionicPopup){
+	console.log($ionicPopup);
 	$scope.doCreate = function(){
-	
-		var param = {userName:$scope.regist.userName};
-		
-		param.userPassword = encrypt($scope.regist.userPassword);
-		$http.post(config.serverUrl+'/login/signup?userName='+param.userName+'&userPassword='+param.userPassword).then(function(r){
-			console.log(r);
+
+		var param = {};
+		param['userName'] = $scope.regist.userName;
+		param['password'] = encrypt($scope.regist.userPassword);
+		httpService.post('login/signup',param).then(function(r){
+
+			if(r.data>0){
+				var myPopup =
+				$ionicPopup.show({
+					template: '<label class="text-center">注册成功</label>',
+				    title: '消息',
+				    scope: $scope,
+				    buttons: [
+				        {
+				        	text: '<b>确定</b>',
+				         	type: 'button-positive',
+				         	onTap: function(e) {
+					           $location.url("login/signin");
+				         	}
+				        },
+				    ]
+				});
+
+			}
+
+		},function(e){
+			console.log(e);
 		});
 	}
-	var p = httpService.get('login/getRSAPublicKey'); 
+	var p = httpService.get('login/getRSAPublicKey');
+
 	p.then(function(data){
 		$scope.publicKeyExponent = data.data.publicKeyExponent;
-		$scope.publicKeyModulus = data.data.publicKeyModulus;		
+		$scope.publicKeyModulus = data.data.publicKeyModulus;
 	},function(e){
-		 
+
 	});
 
 	var encrypt = function(pwd){
-		RSAUtils.setMaxDigits(200); 
-		var key = new RSAUtils.getKeyPair($scope.publicKeyExponent,"",$scope.publicKeyModulus); 
-		var reversedPwd = pwd.split('').reverse().join('');		
+		RSAUtils.setMaxDigits(200);
+		var key = new RSAUtils.getKeyPair($scope.publicKeyExponent,"",$scope.publicKeyModulus);
+		var reversedPwd = pwd.split('').reverse().join('');
 		var encryptedPwd = RSAUtils.encryptedString(key,reversedPwd);
 		return encryptedPwd;
 	}
 	$scope.doLogin = function(){
-		var param = {userName:$scope.login.userName};
-		
-		param.userPassword = encrypt($scope.login.userPassword);
-		$http.post(config.serverUrl+'/login/signin?userName='+param.userName+'&userPassword='+param.userPassword).then(function(r){
-			console.log(r);
-		});
+		var param = {userName:$scope.login.userName,rememberMe: $scope.login.rememberMe};
+		param.password = encrypt($scope.login.userPassword);
+    curUserService.doLogin(param);
 	}
 	$scope.changePassword = function(){
 

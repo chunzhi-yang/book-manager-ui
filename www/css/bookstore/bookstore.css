@@ -1,0 +1,20 @@
+.tabs-top.card {
+  margin: 20px 0;
+}
+
+.ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 60%;
+}
+
+.list.pad-top {
+  padding-top: 50px;
+}
+
+.list.pad-top .item {
+  padding-top: 5px;
+}
+
+/*# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImJvb2tzdG9yZS5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxlQUFlO0NBQ2hCOztBQUVEO0VBQ0Usd0JBQXdCO0VBQ3hCLGlCQUFpQjtFQUNqQixvQkFBb0I7RUFDcEIsV0FBVztDQUNaOztBQUVEO0VBQ0Usa0JBQWtCO0NBQ25COztBQUVEO0VBQ0UsaUJBQWlCO0NBQ2xCIiwiZmlsZSI6ImJvb2tzdG9yZS9ib29rc3RvcmUuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLnRhYnMtdG9wLmNhcmQge1xuICBtYXJnaW46IDIwcHggMDtcbn1cblxuLmVsbGlwc2lzIHtcbiAgdGV4dC1vdmVyZmxvdzogZWxsaXBzaXM7XG4gIG92ZXJmbG93OiBoaWRkZW47XG4gIHdoaXRlLXNwYWNlOiBub3dyYXA7XG4gIHdpZHRoOiA2MCU7XG59XG5cbi5saXN0LnBhZC10b3Age1xuICBwYWRkaW5nLXRvcDogNTBweDtcbn1cblxuLmxpc3QucGFkLXRvcCAuaXRlbSB7XG4gIHBhZGRpbmctdG9wOiA1cHg7XG59XG4iXX0= */

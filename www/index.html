@@ -7,7 +7,7 @@
 
     <link rel="manifest" href="manifest.json">
 
-    
+
     <script>
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('service-worker.js')
@@ -17,15 +17,17 @@
     </script>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="css/login/login.css" rel="stylesheet">
+    <link href="css/bookstore/bookstore.css" rel="stylesheet">
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above    -->
+    <link href="css/ionic-app.css" rel="stylesheet">
 
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-    <link href="css/ionic.app.css" rel="stylesheet">
-    -->
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.min.js"></script>
+    <script src="lib/jquery/dist/jquery.min.js"></script>
     <script src="lib/security.js"></script>
+    <script src="lib/ng-file-upload/ng-file-upload-all.min.js"></script>
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
@@ -33,8 +35,10 @@
     <script src="js/service/service.js"></script>
     <script src="js/directive/directive.js"></script>
     <script src="js/controllers/bookstore/bookstoreCtrl.js"></script>
+    <script src="js/controllers/bookstore/bookstoreDetailCtrl.js"></script>
     <script src="js/controllers/bookshelf/bookshelfCtrl.js"></script>
     <script src="js/controllers/self/selfCtrl.js"></script>
+    <script src="js/controllers/self/selfEditCtrl.js"></script>
     <script src="js/loginCtrl.js"></script>
     <script src="js/mainCtrl.js"></script>
   </head>

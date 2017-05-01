@@ -1,18 +1,16 @@
 <ion-view view-title="注册">
     <ion-header-bar align-title="center" class="bar-assertive">
         <a class="button icon ion-backspace pull-left" ui-sref="login.signin">返回</a> 
-    
+    </ion-header-bar>
     <ion-content ng-controller="loginCtrl">
         <form  name="registForm" novalidate ng-cloak>
-            <div class="list">
-                 
+            <div class="list">                 
                 <label class="item item-input ">
                     <span class="input-label">用户名<i class="icon ion-information assertive"></i></span>
                     <input type="text" name="userName"  placeholder="用户名" ng-model="regist.userName"
-                           required ng-maxlength="50" >
-                </label>
-               
-                <span  style="color:maroon" ng-hide="registForm.userName.$pristine||registForm.userName.$valid" ng-show="registForm.userName.$dirty &&registForm.userName.$error" ng-messages="registForm.userName.$dirty &&registForm.userName.$error" class="item" role="alert">
+                           required ng-maxlength="50">
+                </label>               
+                <span  style="color:maroon" ng-hide="registForm.userName.$pristine||registForm.userName.$valid" ng-show="registForm.userName.$error" ng-messages="registForm.userName.$dirty &&registForm.userName.$error" class="item" role="alert">
                     <div ng-message="required" >用户名不能为空</div>
                     <div ng-message="maxlength">用户名长度不能超过50位</div>
                 </span>
