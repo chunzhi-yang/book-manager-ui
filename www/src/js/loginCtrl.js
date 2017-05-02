@@ -1,7 +1,6 @@
 'use strict';
 app.controller('loginCtrl',['httpService','$scope','$location','curUserService','$ionicPopup',
 	function(httpService,$scope,$location,curUserService,$ionicPopup){
-	console.log($ionicPopup);
 	$scope.doCreate = function(){
 
 		var param = {};
@@ -49,7 +48,8 @@ app.controller('loginCtrl',['httpService','$scope','$location','curUserService',
 		return encryptedPwd;
 	}
 	$scope.doLogin = function(){
-		var param = {userName:$scope.login.userName,rememberMe: $scope.login.rememberMe};
+	  var flag = $scope.login.rememberMe ?$scope.login.rememberMe:false;
+		var param = {userName:$scope.login.userName,rememberMe: flag};
 		param.password = encrypt($scope.login.userPassword);
     curUserService.doLogin(param);
 	}

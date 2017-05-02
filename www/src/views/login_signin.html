@@ -7,7 +7,7 @@
       <ion-view>
         <form  name="loginForm"  novalidate>
             <ion-content ng-controller="loginCtrl">
-            
+
              <div class="list">
                 <label class="item item-input">
                     <span class="input-label">账号</span>
@@ -29,9 +29,7 @@
                     </span>
                 <ion-checkbox name="rememberMe" ng-model="login.rememberMe" class="checkbox-balanced"><span class="font-small">记住我</span></ion-checkbox>
                 <button type="submit"  ng-disabled="loginForm.$invalid" ng-click="doLogin()" class="button button-block button-balanced">登录</button>
-                <a class="link-right link-regist" ui-sref="login.forget">
-                忘记密码
-                </a>
+
             </div>
             </ion-content>
         </form>

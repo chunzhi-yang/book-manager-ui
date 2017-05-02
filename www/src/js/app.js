@@ -107,9 +107,7 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload'])
       });
   // if none of the  states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/bookshelf');
-}]);
-
-app.factory('myHttpInterceptor',['$q', '$injector',function($q, $injector){
+}]).factory('myHttpInterceptor',['$q', '$injector',function($q, $injector){
     return {
         request: function (config) {
             //TODO 带上未知属性会产生一个options请求问题

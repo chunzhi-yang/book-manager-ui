@@ -20,7 +20,7 @@ app.service('httpService',['$http','Config',function($http,configs){
         },
         put:function(url, param){
             url=getUrl(url);
-            return $http.put(url, JSON.stringify(param), {headers: {'Content-Type': 'application/json'}});
+            return $http.post(url, JSON.stringify(param), {headers: {'Content-Type': 'application/json'}});
         },
         'delete':function(url){
             url=getUrl(url);
@@ -38,13 +38,10 @@ app.service('curUserService',['httpService','Config','$state',function(httpServi
   this.doLogin = function(params){
     var promise =httpService.post( '/login/signin', params);
     promise.then(function (d) {
-      console.log(d);
-      if(d.data == 1) {
-
+      console.log(d.data);
+      if(d.data.success) {
         var curUserReq =httpService.post( '/user/'+params.userName);
-
         curUserReq.then(function (data) {
-          console.log(data.data);
           if (data.data.imgPath != undefined && data.data.imgPath != '') {
             data.data.imgPath = config.imgPrefix + data.data.imgPath;
 
@@ -74,6 +71,9 @@ app.service('curUserService',['httpService','Config','$state',function(httpServi
     });
   }
 
+  this.test = function(){
+    curUser = {usersId: 2, uid: "20170425231430000", userName: "chunzhi123", sex: 0,birth: new Date('1992-12-27 18:00:50')};
+  }
   this.getIsLogined = function(){
     return isLogined;
   }

@@ -1,24 +1,26 @@
-<ion-view view-title="注册">
-    <ion-header-bar align-title="center" class="bar-assertive">
-        <a class="button icon ion-backspace pull-left" ui-sref="login.signin">返回</a> 
-    </ion-header-bar>
+<ion-nav-view>
+  <ion-header-bar  class="bar bar-header bar-assertive">
+    <span class="button button-clear">注册</span>
+    <a class="button button-clear pull-right" ui-sref="login.signin"><small>登录</small></a>
+  </ion-header-bar>
+  <ion-view view-title="注册">
     <ion-content ng-controller="loginCtrl">
         <form  name="registForm" novalidate ng-cloak>
-            <div class="list">                 
+            <div class="list">
                 <label class="item item-input ">
                     <span class="input-label">用户名<i class="icon ion-information assertive"></i></span>
                     <input type="text" name="userName"  placeholder="用户名" ng-model="regist.userName"
                            required ng-maxlength="50">
-                </label>               
+                </label>
                 <span  style="color:maroon" ng-hide="registForm.userName.$pristine||registForm.userName.$valid" ng-show="registForm.userName.$error" ng-messages="registForm.userName.$dirty &&registForm.userName.$error" class="item" role="alert">
                     <div ng-message="required" >用户名不能为空</div>
                     <div ng-message="maxlength">用户名长度不能超过50位</div>
                 </span>
-                
+
                 <label class="item item-input ">
                     <span class="input-label">密码<i class="icon ion-information assertive"></i></span>
                     <input type="password" name="userPassword" placeholder="密码" ng-minlength="6" ng-maxlength="30" ng-model="regist.userPassword" required>
-                </label>  
+                </label>
                 <span  style="color:maroon" ng-hide="registForm.userPassword.$pristine || registForm.userPassword.$valid" ng-show="registForm.userPassword.$dirty &&registForm.userPassword.$error" ng-messages="registForm.userPassword.$dirty &&registForm.userPassword.$error"
                         class="item" role="alert">
                         <div ng-message="required" class="link-right">密码不能为空</div>
@@ -37,7 +39,8 @@
                 立即注册
                 </button>
             </div>
-        </form>    
+        </form>
     </ion-content>
-        
-</ion-view>
+
+  </ion-view>
+</ion-nav-view>

@@ -3,12 +3,12 @@
 
     <ion-content>
       <div class="bar-subheader"><button type="submit" ng-click="submitForm()"  ng-disabled="_userInfo.$invalid"  class="button button-assertive">
-        <i class="_userInfo.$valid?'ion-edit':'ion-checkmark'"></i>修改 </button> </ion-header-bar></div>
+        <i ng-class="_userInfo.$valid?'ion-edit':'ion-checkmark'"></i>修改 </button> </ion-header-bar></div>
       <div class="list">
         <label class="item item-input item-input-inset">
           <span class="input-label"> 头像 <i class="icon ion-information-circled assertive"></i></span>
-          <button class="item item-avatar-right item-borderless"  ngf-select ng-model="file" name="file"
-                  ngf-validate="{size: {min:'10KB', max:'1MB'}}" ngf-accept="image/'\*'" ngf-capture="camera" ngf-change="upload($file)">
+          <button class="item item-avatar-right item-borderless"  ngf-select ng-model="file"
+                  ngf-validate="{size: {min:'10KB', max:'1MB'}}" ng-change="loadFile(file)" ngf-pattern="image/*">
             <img ngf-src="file">
           </button>
         </label>
