@@ -4,9 +4,14 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-var app=angular.module('starter', ['ionic', 'ngFileUpload'])
+var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-popups'])
 
 .run(function($ionicPlatform) {
+
+  document.addEventListener("deviceready", onDeviceReady, false);
+  function onDeviceReady() {
+    console.log(cordova.file);
+  }
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -130,13 +135,14 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload'])
         },
         responseError: function(rejection) {
             var $state = $injector.get('$state');
+            var popup = $injector.get('Popup');
             if(rejection.status === 401){
                 $state.go("login.signin");
             }else if(rejection.status === 500) {
                 var data=rejection.data;
                 if(data.error){
                     try{
-                        swal("系统错误");
+                      popup("系统错误",function(){});
 
                     }catch(e){}
                 }else{
@@ -144,7 +150,7 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload'])
                 }
             }else if(rejection.status === 404){
                 try{
-                    swal('页面不存在','您要访问的页面不存在');
+                  popup('页面不存在','您要访问的页面不存在',function(){});
 
                 }catch(e){}
             }else{
@@ -154,4 +160,8 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload'])
         }
     };
 }]);
-
+app.config(function (PopupProvider) {
+  PopupProvider.title = '提示';
+  PopupProvider.okValue = '确定';
+  PopupProvider.cancelValue = '取消';
+});

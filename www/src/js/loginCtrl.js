@@ -1,31 +1,23 @@
 'use strict';
-app.controller('loginCtrl',['httpService','$scope','$location','curUserService','$ionicPopup',
-	function(httpService,$scope,$location,curUserService,$ionicPopup){
+app.controller('loginCtrl',['httpService','$scope','$location','curUserService','Popup',
+	function(httpService,$scope,$location,curUserService,Popup){
 	$scope.doCreate = function(){
 
 		var param = {};
 		param['userName'] = $scope.regist.userName;
 		param['password'] = encrypt($scope.regist.userPassword);
 		httpService.post('login/signup',param).then(function(r){
+      console.log(r);
+			if(r.data.success){
+        Popup.alert("注册成功!",function(){
+            $location.url('login/signin');
+        });
 
-			if(r.data>0){
-				var myPopup =
-				$ionicPopup.show({
-					template: '<label class="text-center">注册成功</label>',
-				    title: '消息',
-				    scope: $scope,
-				    buttons: [
-				        {
-				        	text: '<b>确定</b>',
-				         	type: 'button-positive',
-				         	onTap: function(e) {
-					           $location.url("login/signin");
-				         	}
-				        },
-				    ]
-				});
+			}else{
+        Popup.alert(r.data.message,function(){
 
-			}
+        });
+      }
 
 		},function(e){
 			console.log(e);

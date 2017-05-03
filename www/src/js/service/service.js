@@ -28,7 +28,7 @@ app.service('httpService',['$http','Config',function($http,configs){
         },
     }
 }]);
-app.service('curUserService',['httpService','Config','$state',function(httpService,config,$state){
+app.service('curUserService',['httpService','Config','$state','Popup',function(httpService,config,$state,Popup){
   var curUser = {};
   var rememberMe = false;
   var isLogined = false;
@@ -38,28 +38,27 @@ app.service('curUserService',['httpService','Config','$state',function(httpServi
   this.doLogin = function(params){
     var promise =httpService.post( '/login/signin', params);
     promise.then(function (d) {
-      console.log(d.data);
+
       if(d.data.success) {
-        var curUserReq =httpService.post( '/user/'+params.userName);
-        curUserReq.then(function (data) {
-          if (data.data.imgPath != undefined && data.data.imgPath != '') {
-            data.data.imgPath = config.imgPrefix + data.data.imgPath;
-
+        var curUserReq =httpService.post( 'user/'+params.userName);
+        curUserReq.success(function (data) {
+          console.log(data);
+          if (data.imgPath != undefined && data.imgPath != '') {
+            data.imgPath = config.imgPrefix + data.imgPath;
           }else{
-            data.data.imgPath = 'img/thumbnail.jpg';
+            data.imgPath = 'img/thumbnail.jpg';
           }
-
-          curUser = data.data;
+          curUser = data;
           isLogined = true;
           rememberMe = params.rememberMe;
           $state.go("app.self.index");
-        },function(data){
-          console.log("获取用户信息失败"+data);
         });
 
       }else{
+        Popup.alert(d.data.message,function(){
 
-        return false;
+        });
+
       }
     });
 

@@ -3,4 +3,5 @@ app.controller('selfCtrl', ['$scope','httpService','curUserService','Config',fun
   var user = curUserService.getCurUser();
        $scope.usingAccount = user.userName;
        $scope.usingAvatar = config.imgPrefix + user.imgPath;
+      $scope.usingUid = user.uid;
 }]);

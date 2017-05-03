@@ -6,6 +6,21 @@
                 个人资料
               <img ng-src="{{usingAvatar}}">
             </a>
+          <a ng-href="#/app/self/disk/{{usingUid}}" class=" item item-icon-left">
+            <i class="ion-document"></i>
+            个人云盘
+          </a>
+          <a ng-href="#/app/order/{{usingUid}}" class=" item item-icon-left">
+            <i class="ion-ios-cart ion-android-cart"></i>
+            我的购买记录
+          </a>
+          <a ng-href="#/books/history/{{usingUid}}"  class=" item item-icon-left">
+            <i class="ion-bookmark"></i>
+            阅读历史</a>
+          <a ng-href="#/app/setting/{{usingUid}}" class="item item-icon-left">
+            <i class="ion-settings"></i>
+            设置
+          </a>
         </ion-list>
   </ion-content>
 </ion-view>
