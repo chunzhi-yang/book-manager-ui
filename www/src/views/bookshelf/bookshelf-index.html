@@ -2,16 +2,12 @@
   <ion-header-bar class="bar bar-assertive" align-title="center">书架</ion-header-bar>
   <ion-content>
 	  <div class="list pad-top">
-
-				<a class="item item-thumbnail-left card item-borderless padding" ui-sref="app.bookshelf.view({path:item.filePath})"  
-				      collection-repeat="item in books"
-				      collection-item-width="'31%'" 
-				      collection-item-height="60px" 
-				     >
+        <div class="item  item-borderless padding"
+				 collection-repeat="item in books"
+             collection-item-width="'31%'"  collection-item-height="60px"> <a  style="width: 60%;" class="item"ui-sref="app.bookshelf.view({path:item})" >
  						{{item}}
-
-			    </a>
-
+        </a>
+        </div>
 			</div>
-  </ion-content>
+    <ion-content>
 </ion-view>

@@ -1,5 +1,5 @@
-app.controller('bookshelfCtrl',['$scope','httpService','$cordovaActionSheet','$cordovaFile', 
-	function($scope, httpService,$cordovaActionSheet,$cordovaFile) {
+app.controller('bookshelfCtrl',['$scope','httpService',
+	function($scope, httpService) {
 
-   	 $scope.books=['AAA','AA','A'];
+   	 $scope.books=['E:\\学习指引.txt','AA','A'];
 }]);

@@ -1,5 +1,5 @@
-app.controller('bookshelfViewCtrl',['$scope','httpService','$cordovaActionSheet','$cordovaFile', 
-	function($scope, httpService,$cordovaActionSheet,$cordovaFile) {
+app.controller('bookshelfViewCtrl',['$scope','httpService','$cordovaActionSheet','$cordovaFile','$stateParams',
+	function($scope, httpService,$cordovaActionSheet,$cordovaFile,$stateParams) {
 
    	$scope.textContent = "";
 
@@ -17,10 +17,10 @@ app.controller('bookshelfViewCtrl',['$scope','httpService','$cordovaActionSheet'
 	      .then(function(btnIndex) {
 	        var index = btnIndex;
 	      });
-	    
+
   }
   var readFile = function(){
-  	 $cordovaFile.readAsText(cordova.file.dataDirectory, $scope.bookFilePath)
+  	 $cordovaFile.readAsText(cordova.file.dataDirectory, $stateParams.path)
       .then(function (success) {
         // success
       }, function (error) {

@@ -1,7 +1,9 @@
-app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateParams','$filter','curUserService','Config',
-  function($scope,Upload,httpService,$state,$stateParams,$filter,curUserService,configs) {
+app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateParams','$filter','curUserService','Config','$ionicActionSheet',
+  function($scope,Upload,httpService,$state,$stateParams,$filter,curUserService,configs,$ionicActionSheet) {
     $scope.userInfo = curUserService.getCurUser();
+
     //$scope.userInfo.birth = $filter('date')($scope.userInfo.birth,'yyyy-MM-dd HH:mm:ss');
+   // $scope.userInfo.birth =  $filter('date')($scope.userInfo.birth,'yyyy-MM-dd HH:mm:ss');
     $scope.items=["男","女"];
 
     $scope.submitForm = function(){
@@ -19,7 +21,7 @@ app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateP
           data.data.imgPath = configs.imgPrefix  + data.data.imgPath;
         }
         curUserService.setCurUser(data.data);
-       // $state.go('app.self.index');
+       $state.go('app.self.index');
       },function(error){
         console.log("下载头像失败:"+error);
       });
@@ -40,9 +42,9 @@ app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateP
       }).success(function (data, status, headers, config) {
 
         $scope.userInfo.imgPath = data;
-        httpService.post('user/update',$scope.userInfo).success(function(d){
+        httpService.put('user/update',$scope.userInfo).success(function(d){
           loadUser();
-          console.log(d);
+
         })
         console.log('文件'+config.file.name+'上传成功');
       });

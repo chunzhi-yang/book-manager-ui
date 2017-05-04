@@ -1,1 +1,1 @@
-app.controller("bookshelfCtrl",["$scope","httpService","$cordovaActionSheet","$cordovaFile",function($scope,httpService,$cordovaActionSheet,$cordovaFile){$scope.books=["AAA","AA","A"]}]);
+app.controller("bookshelfCtrl",["$scope","httpService",function($scope,httpService){$scope.books=["E:\\学习指引.txt","AA","A"]}]);

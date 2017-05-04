@@ -6,8 +6,8 @@
 // 'starter.controllers' is found in controllers.js
 var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-popups'])
 
-.run(function($ionicPlatform) { 
-   
+.run(function($ionicPlatform) {
+
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -79,7 +79,7 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
     controller: 'bookshelfCtrl'
   })
   .state('app.bookshelf.view', {
-    url: '/view',
+    url: '/view/:path',
     templateUrl: 'views/bookshelf/bookshelf-view.html',
     controller: 'bookshelfViewCtrl'
   })
@@ -111,13 +111,33 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
     templateUrl: 'views/self/self-index.html',
     controller: 'selfCtrl'
   })
+      .state('app.self.history', {
+        url: '/history',
+        templateUrl: 'views/self/self-history.html',
+        controller: 'selfHistoryCtrl'
+      })
+      .state('app.self.order', {
+        url: '/order',
+        templateUrl: 'views/self/self-order.html',
+        controller: 'selfOrderCtrl'
+      })
+      .state('app.self.disk', {
+        url: '/disk',
+        templateUrl: 'views/self/self-disk.html',
+        controller: 'selfDiskCtrl'
+      })
+      .state('app.self.setting', {
+        url: '/setting',
+        templateUrl: 'views/self/setting.html',
+        controller: 'settingCtrl'
+      })
       .state('app.self.edit', {
         url: '/edit/:account',
         templateUrl: 'views/self/self-edit.html',
         controller: 'selfEditCtrl'
       });
-  // if none of the  states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/bookshelf');
+
+  $urlRouterProvider.otherwise('/app/bookshelf/index');
 }]).factory('myHttpInterceptor',['$q', '$injector',function($q, $injector){
     return {
         request: function (config) {
