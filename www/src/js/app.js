@@ -6,12 +6,8 @@
 // 'starter.controllers' is found in controllers.js
 var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-popups'])
 
-.run(function($ionicPlatform) {
-
-  document.addEventListener("deviceready", onDeviceReady, false);
-  function onDeviceReady() {
-    console.log(cordova.file);
-  }
+.run(function($ionicPlatform) { 
+   
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -74,8 +70,18 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
 
   .state('app.bookshelf', {
     url: '/bookshelf',
+    template: '<ion-nav-view></ion-nav-view>',
+    abstract: true
+  })
+  .state('app.bookshelf.index', {
+    url: '/index',
     templateUrl: 'views/bookshelf/bookshelf-index.html',
     controller: 'bookshelfCtrl'
+  })
+  .state('app.bookshelf.view', {
+    url: '/view',
+    templateUrl: 'views/bookshelf/bookshelf-view.html',
+    controller: 'bookshelfViewCtrl'
   })
    .state('app.bookstore', {
       url: '/bookstore',
