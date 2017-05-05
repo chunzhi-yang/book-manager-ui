@@ -1,7 +1,7 @@
 app.controller('bookshelfViewCtrl',['$scope','httpService','$cordovaActionSheet','$cordovaFile','$stateParams',
 	function($scope, httpService,$cordovaActionSheet,$cordovaFile,$stateParams) {
 
-   	$scope.textContent = "";
+
 
    	var options = {
     title: '你要做什么?',
@@ -20,9 +20,10 @@ app.controller('bookshelfViewCtrl',['$scope','httpService','$cordovaActionSheet'
 
   }
   var readFile = function(){
-  	 $cordovaFile.readAsText(cordova.file.dataDirectory, $stateParams.path)
-      .then(function (success) {
-        // success
+  	 $cordovaFile.readAsText(cordova.file.externalRootDirectory, $stateParams.path)
+      .then(function (d) {
+        console.log(d);
+        $scope.textContent = d;
       }, function (error) {
         // error
       });

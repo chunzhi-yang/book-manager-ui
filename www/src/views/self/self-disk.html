@@ -3,9 +3,11 @@
   <ion-content>
    	   上传记录
     <ion-list>
-      <ion-item>
 
-      </ion-item>
+        <a class="item item-thumbnail-left  card" ui-sref="app.bookstore.view({id:item.booksId})"
+           collection-repeat="item in books"
+           collection-item-width="'100%'"
+        ></a>
     </ion-list>
   </ion-content>
 </ion-view>
