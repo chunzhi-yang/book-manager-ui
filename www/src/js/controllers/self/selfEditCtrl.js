@@ -1,5 +1,5 @@
-app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateParams','$filter','curUserService','Config','$ionicActionSheet',
-  function($scope,Upload,httpService,$state,$stateParams,$filter,curUserService,configs,$ionicActionSheet) {
+app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateParams','$filter','curUserService','Config','$cordovaDatePicker',
+  function($scope,Upload,httpService,$state,$stateParams,$filter,curUserService,configs,$cordovaDatePicker) {
     $scope.userInfo = curUserService.getCurUser();
 
     //$scope.userInfo.birth = $filter('date')($scope.userInfo.birth,'yyyy-MM-dd HH:mm:ss');
@@ -10,6 +10,25 @@ app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateP
       $scope.upload();
 
     }
+    var options = {
+      date: new Date(),
+      mode: 'date', // or 'time'
+      minDate: new Date() - 10000,
+      allowOldDates: true,
+      allowFutureDates: false,
+      doneButtonLabel: 'DONE',
+      doneButtonColor: '#F2F3F4',
+      cancelButtonLabel: 'CANCEL',
+      cancelButtonColor: '#000000'
+    };
+
+    document.addEventListener("deviceready", function () {
+
+      $cordovaDatePicker.show(options).then(function(date){
+        console.log(date);
+      });
+
+    }, false);
     $scope.loadFile = function(file){
         $scope.file = file;
     }
@@ -41,7 +60,7 @@ app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateP
           console.log("上传失败");
       }).success(function (data, status, headers, config) {
 
-        $scope.userInfo.imgPath = data;
+        $scope.userInfo.imgPath = configs.imgPrefix +data;
         httpService.put('user/update',$scope.userInfo).success(function(d){
           loadUser();
 

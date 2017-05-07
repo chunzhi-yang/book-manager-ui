@@ -1,7 +1,7 @@
 app.controller('bookstoreCtrl',['$scope','httpService','$timeout','Config', function($scope, httpService,$timeout,config) {
-	var page = 1,loading=false,timer=null;
-  $scope.book = {};
-    $scope.search = function(){
+	var page = 1,loading=false;
+
+   $scope.search = function(){
     		page = 1;
       $scope.loadBooks();
     }
@@ -17,13 +17,21 @@ app.controller('bookstoreCtrl',['$scope','httpService','$timeout','Config', func
         return;
       }
       loading = true;
-    	httpService.post('books/list',{bookName:$scope.book.bookName,type:$scope.book.type,page:page,pageSize:5})
+    var param = {type:$scope.book.type,page:page,pageSize:5};
+    if($scope.book.bookName){
+      param.bookName = $scope.book.bookName;
+    }
+    	httpService.post('books/list',param)
     	.success(function(d){
     		if(d.data.length == 0){
     		  $scope.noMoreItemsAvailable = true;
         }else{
-          page++;
           $scope.books = $scope.books.concat(d.data);
+          if(page == 1){
+            $scope.books = [];
+            $scope.books = $scope.books.concat(d.data);
+          }
+          page++;
           angular.forEach($scope.books,function(d){
             d.imgPath = config.imgPrefix + d.imgPath;
             d.filePath = config.filePrefix + d.filePath;
@@ -34,6 +42,7 @@ app.controller('bookstoreCtrl',['$scope','httpService','$timeout','Config', func
     	});
     }
     $scope.books=[];
+  $scope.book={type:0};
   $scope.noMoreItemsAvailable = false;
   $scope.search();
 }]);

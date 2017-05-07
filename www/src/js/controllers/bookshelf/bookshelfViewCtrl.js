@@ -1,36 +1,41 @@
-app.controller('bookshelfViewCtrl',['$scope','httpService','$cordovaActionSheet','$cordovaFile','$stateParams',
-	function($scope, httpService,$cordovaActionSheet,$cordovaFile,$stateParams) {
+app.controller('bookshelfViewCtrl',['$scope','httpService','$ionicModal','fileTransferHelper','curUserService','Config',
+	function($scope, httpService,$ionicModal,fileTransferHelper,curUserService,config) {
+    var curUser = curUserService.getCurUser();
+    var isLogined = curUserService.getIsLogined();
 
 
 
-   	var options = {
-    title: '你要做什么?',
-    buttonLabels: ['目录', '设置','字体'],
-    addCancelButtonWithLabel: '取消',
-    androidEnableCancelButton: true,
-    winphoneEnableCancelButton: true,
-    addDestructiveButtonWithLabel: '删除这个'
-  };
-  $scope.getMenus=showActionSheet;
-  var showActionSheet = function(){
-  	$cordovaActionSheet.show(options)
-	      .then(function(btnIndex) {
-	        var index = btnIndex;
-	      });
 
-  }
-  var readFile = function(){
-  	 $cordovaFile.readAsText(cordova.file.externalRootDirectory, $stateParams.path)
-      .then(function (d) {
-        console.log(d);
-        $scope.textContent = d;
-      }, function (error) {
-        // error
-      });
-  }
-   	document.addEventListener("deviceready", function () {
-   	   showActionSheet();
-   	   readFile();
-  }, false);
+
+    $scope.modal = $ionicModal.fromTemplateUrl('operateMenu.html', {
+      scope: $scope,
+
+    }).then(function(modal) {
+      $scope.modal = modal;
+    });
+    $scope.sideModal = $ionicModal.fromTemplateUrl('chapterPage.html', {
+      scope: $scope,
+
+    }).then(function(modal) {
+      $scope.sideModal = modal;
+    });
+
+
+
+    function readFile(blob, callback) {
+      var a = new FileReader();
+      a.onload = function(e) {callback(e.target.result);};
+      a.readAsText(blob);
+    }
+    var loadInfo = function(){
+       if(isLogined){
+          $scope.filePath = config.filePrefix + fileTransferHelper.getter();
+       } else{
+          readFile(fileTransferHelper.getter(),function(result){
+            $scope.textContent = result;
+          });
+       }
+    }
+    loadInfo();
 
 }]);

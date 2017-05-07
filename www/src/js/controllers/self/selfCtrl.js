@@ -1,5 +1,4 @@
-app.controller('selfCtrl', ['$scope','httpService','curUserService','Config',function($scope, $http,curUserService,config) {
+app.controller('selfCtrl', ['$scope','curUserService',function($scope,curUserService) {
 
   $scope.user = curUserService.getCurUser();
-
 }]);

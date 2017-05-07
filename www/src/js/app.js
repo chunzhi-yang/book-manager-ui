@@ -11,7 +11,7 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
-    if (window.cordova && window.cordova.plugins.Keyboard) {
+    if (window.cordova  &&  window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
 
@@ -79,7 +79,7 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
     controller: 'bookshelfCtrl'
   })
   .state('app.bookshelf.view', {
-    url: '/view/:path',
+    url: '/view',
     templateUrl: 'views/bookshelf/bookshelf-view.html',
     controller: 'bookshelfViewCtrl'
   })
@@ -111,11 +111,7 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
     templateUrl: 'views/self/self-index.html',
     controller: 'selfCtrl'
   })
-      .state('app.self.history', {
-        url: '/history',
-        templateUrl: 'views/self/self-history.html',
-        controller: 'selfHistoryCtrl'
-      })
+
       .state('app.self.order', {
         url: '/order',
         templateUrl: 'views/self/self-order.html',

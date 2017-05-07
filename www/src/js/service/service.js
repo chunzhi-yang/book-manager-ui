@@ -27,8 +27,7 @@ app.service('httpService',['$http','Config',function($http,configs){
             return $http['delete'](url, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
         },
     }
-}]);
-app.service('curUserService',['httpService','Config','$state','Popup',function(httpService,config,$state,Popup){
+}]).service('curUserService',['httpService','Config','$state','Popup',function(httpService,config,$state,Popup){
   var curUser = {};
   var rememberMe = false;
   var isLogined = false;
@@ -42,11 +41,11 @@ app.service('curUserService',['httpService','Config','$state','Popup',function(h
       if(d.data.success) {
         var curUserReq =httpService.post( 'user/'+params.userName);
         curUserReq.success(function (data) {
-          console.log(data);
+
           if (data.imgPath != undefined && data.imgPath != '') {
             data.imgPath = config.imgPrefix + data.imgPath;
           }else{
-            data.imgPath = 'img/thumbnail.jpg';
+            data.imgPath = 'img/thumbnail-'+data.sex ==0?'male.png':'female.png';
           }
           curUser = data;
           isLogined = true;
@@ -67,15 +66,14 @@ app.service('curUserService',['httpService','Config','$state','Popup',function(h
     isLogined = false;
     httpService.post('login/logout').success(function(d){
       ionic.Platform.exitApp();
+      $state.go('login.signin');
     });
   }
 
   this.test = function(){
     curUser = {usersId: 2, uid: "20170425231430000", userName: "chunzhi123", sex: 0,birth: new Date('1992-12-27 18:00:50')};
   }
-  this.getIsLogined = function(){
-    return isLogined;
-  }
+
   this.getCurUser =function (){
     return curUser;
   }
@@ -85,5 +83,30 @@ app.service('curUserService',['httpService','Config','$state','Popup',function(h
 
   this.getRemeberMe = function (){
     return rememberMe;
+  }
+}]).service('fileTransferHelper',function(){
+  var param = {};
+  this.setter = function(p){
+    param = p;
+  }
+  this.getter = function(){
+    return param;
+  }
+}).factory('localStorage',['$window',function($window){
+  return{        //存储单个属性
+    set :function(key,value){
+      $window.localStorage[key]=value;
+    },        //读取单个属性
+    get:function(key,defaultValue){
+      return  $window.localStorage[key] || defaultValue;
+    },        //存储对象，以JSON格式存储
+    setObject:function(key,value){
+
+      $window.localStorage[key]=JSON.stringify(value);
+    },        //读取对象
+    getObject: function (key) {
+      return JSON.parse($window.localStorage[key] || '{}');
+    }
+
   }
 }]);

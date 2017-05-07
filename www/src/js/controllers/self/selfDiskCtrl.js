@@ -1,8 +1,5 @@
-app.controller('selfDiskCtrl', ['$scope','httpService','curUserService','Config',function($scope, $http,curUserService,config) {
+app.controller('selfDiskCtrl', ['$scope','httpService','curUserService','Config',function($scope, httpService,curUserService,config) {
     curUserService.test();
     var user = curUserService.getCurUser();
-       httpService.post('',function(){
-
-       });
-
+    $scope.books = [{bookName:'111'},{bookName:'111'},{bookName:'111'},{bookName:'111'},{bookName:'111'},{bookName:'111'},{bookName:'111'},{bookName:'111'},{bookName:'111'},{bookName:'111'},{bookName:'111'}];
 }]);

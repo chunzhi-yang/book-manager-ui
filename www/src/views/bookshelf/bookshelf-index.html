@@ -1,13 +1,22 @@
 <ion-view  title="书架" ng-controller="bookshelfCtrl">
   <ion-header-bar class="bar bar-assertive" align-title="center">书架</ion-header-bar>
-  <ion-content>
-	  <div class="list pad-top">
-        <div class="item  item-borderless padding"
-				 collection-repeat="item in books"
-             collection-item-width="'31%'"  collection-item-height="60px"> <a  style="width: 60%;" class="item"ui-sref="app.bookshelf.view({path:item})" >
- 						{{item}}
-        </a>
+  <ion-content >
+
+        <div class="item  item-borderless light-bg"
+				  collection-repeat="item in books"
+             item-width="'50%'"  item-height="140px">
+          <a  class="button button-block" ng-click="viewBook($index)" >
+ 						<span class="item">{{item.bookName}}</span>
+            <span>{{item.author?item.author:'未知作者'}}</span>
+          </a>
+          <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadByUid()" distance="10%"></ion-infinite-scroll>
         </div>
-			</div>
+    <div class="item  item-borderless col-50 light-bg">
+      <button class="button button-block" id="file" ngf-select ng-model="files" ngf-multiple="true"
+              ngf-validate="{size: {max:'20MB'}}" ng-change="loadFiles(files)" ngf-pattern="text/*">
+        <h1>+</h1>
+      </button>
+      </div>
+
     <ion-content>
 </ion-view>
