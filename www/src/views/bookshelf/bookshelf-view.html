@@ -1,13 +1,20 @@
-<ion-view  title="书架" ng-controller="bookshelfViewCtrl">
+<ion-nav-view  title="书架" ng-controller="bookshelfViewCtrl">
+
   <ion-content class="energized-bg">
-	  <div class="energized-bg" ng-click="modal.show()" ng-if="!filePath">
+	  <div class="energized-bg" ng-click="modal.show()" ng-if="filePath">
 	  	{{textContent}}
-	  </div>
-    <div class="energized-bg" ng-click="modal.show()" ng-if="filePath">
+      <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%"></ion-infinite-scroll>
+    </div>
+    <div class="energized-bg" ng-click="modal.show()" ng-if="!filePath" ng-style="{
+      'font-family':'Verdana,Arial,Helvetica,sans-serif,Consolas',
+      'font-size': fontSize+'px',
+      'line-height': 2.0,
+      'padding': '30px 10px'}">
       {{textContent}}
     </div>
+    <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%"></ion-infinite-scroll>
   </ion-content>
-</ion-view>
+</ion-nav-view>
 <script type="text/ng-template" id="operateMenu.html">
   <ion-modal-view style="margin-top:450px;">
      <ion-content>
@@ -34,7 +41,7 @@
 
           </div>
          <div class="item">
-           <span class="col-20"><button class="button button-light col-offset-10">A<small>-</small></button>{{fontSize}} <button class="button button-light">A<small>+</small></button></span>
+           <span class="col-20"><button class="button button-light col-offset-10" ng-click="smaller()">A<small>-</small></button><span style="line-height:47px">{{fontSize}}</span> <button class="button button-light" ng-click="larger()">A<small>+</small></button></span>
          </div>
        </ion-list>
     </ion-content>

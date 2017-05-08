@@ -13,7 +13,7 @@
         </div>
     <div class="item  item-borderless col-50 light-bg">
       <button class="button button-block" id="file" ngf-select ng-model="files" ngf-multiple="true"
-              ngf-validate="{size: {max:'20MB'}}" ng-change="loadFiles(files)" ngf-pattern="text/*">
+              ngf-validate="{size: {max:'20MB'}}" ng-change="loadFiles(files)" accept="text/plain" ngf-pattern="text/*">
         <h1>+</h1>
       </button>
       </div>

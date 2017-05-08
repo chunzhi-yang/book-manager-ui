@@ -11,7 +11,7 @@ app.controller('bookshelfCtrl',['$scope','httpService','curUserService','localSt
       } else {
         fileTransferHelper.setter($scope.files[i]);
       }
-      $state.go('app.bookshelf.view');
+      $state.go('login.bookshelf.view');
     }
     var loadFromLocalStorage = function(){
       if($scope.isLogined){
@@ -44,7 +44,6 @@ app.controller('bookshelfCtrl',['$scope','httpService','curUserService','localSt
 
     $scope.loadFiles= function(files){
       $scope.files =$scope.files.concat(files);
-      console.log($scope.files);
       if(!$scope.isLogined){
         addToLocals(files);
         var books = localStorage.getObject('bookShelfItem');

@@ -67,7 +67,11 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
     abstract: true,
     templateUrl: 'views/tabs.html'
   })
-
+      .state('login.bookshelf', {
+        url: '/bookshelf',
+        template: '<ion-nav-view></ion-nav-view>',
+        abstract: true
+      })
   .state('app.bookshelf', {
     url: '/bookshelf',
     template: '<ion-nav-view></ion-nav-view>',
@@ -78,7 +82,7 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
     templateUrl: 'views/bookshelf/bookshelf-index.html',
     controller: 'bookshelfCtrl'
   })
-  .state('app.bookshelf.view', {
+  .state('login.bookshelf.view', {
     url: '/view',
     templateUrl: 'views/bookshelf/bookshelf-view.html',
     controller: 'bookshelfViewCtrl'
@@ -88,13 +92,18 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
       abstract: true,
       template: '<ion-nav-view></ion-nav-view>',
   })
+      .state('login.bookstore', {
+        url: '/bookstore',
+        abstract: true,
+        template: '<ion-nav-view></ion-nav-view>',
+      })
       .state('app.bookstore.index', {
     url: '/index',
     templateUrl: 'views/bookstore/bookstore.html',
     controller: 'bookstoreCtrl'
 
   })
-      .state('app.bookstore.detail', {
+      .state('login.bookstore.detail', {
         url: '/detail/:id',
         templateUrl: 'views/bookstore/bookstore-detail.html',
         controller: 'bookstoreDetailCtrl'
@@ -106,28 +115,34 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
       template: '<ion-nav-view></ion-nav-view>',
 
   })
+      .state('login.self', {
+        url: '/self',
+        abstract: true,
+        template: '<ion-nav-view></ion-nav-view>',
+
+      })
     .state('app.self.index', {
     url: '/index',
     templateUrl: 'views/self/self-index.html',
     controller: 'selfCtrl'
   })
 
-      .state('app.self.order', {
+      .state('login.self.order', {
         url: '/order',
         templateUrl: 'views/self/self-order.html',
         controller: 'selfOrderCtrl'
       })
-      .state('app.self.disk', {
+      .state('login.self.disk', {
         url: '/disk',
         templateUrl: 'views/self/self-disk.html',
         controller: 'selfDiskCtrl'
       })
-      .state('app.self.setting', {
+      .state('login.self.setting', {
         url: '/setting',
         templateUrl: 'views/self/setting.html',
         controller: 'settingCtrl'
       })
-      .state('app.self.edit', {
+      .state('login.self.edit', {
         url: '/edit/:account',
         templateUrl: 'views/self/self-edit.html',
         controller: 'selfEditCtrl'
