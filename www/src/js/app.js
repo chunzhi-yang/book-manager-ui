@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-popups'])
+var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-popups','ionic-datepicker'])
 
 .run(function($ionicPlatform) {
 
@@ -14,7 +14,6 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
     if (window.cordova  &&  window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
-
     }
 
     if (window.StatusBar) {

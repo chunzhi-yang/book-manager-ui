@@ -1,5 +1,5 @@
-app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateParams','$filter','curUserService','Config','$cordovaDatePicker',
-  function($scope,Upload,httpService,$state,$stateParams,$filter,curUserService,configs,$cordovaDatePicker) {
+app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateParams','$filter','curUserService','Config',
+  function($scope,Upload,httpService,$state,$stateParams,$filter,curUserService,configs) {
     $scope.userInfo = curUserService.getCurUser();
 
     //$scope.userInfo.birth = $filter('date')($scope.userInfo.birth,'yyyy-MM-dd HH:mm:ss');
@@ -10,25 +10,17 @@ app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateP
       $scope.upload();
 
     }
-    var options = {
-      date: new Date(),
-      mode: 'date', // or 'time'
-      minDate: new Date() - 10000,
-      allowOldDates: true,
-      allowFutureDates: false,
-      doneButtonLabel: 'DONE',
-      doneButtonColor: '#F2F3F4',
-      cancelButtonLabel: 'CANCEL',
-      cancelButtonColor: '#000000'
+
+    $scope.minDate = new Date(1970, 1, 1);
+    $scope.maxDate = new Date();
+
+    $scope.datePickerCallback = function (val) {
+      if (!val) {
+        console.log('Date not selected');
+      } else {
+        $scope.userInfo.birth = val;
+      }
     };
-
-    document.addEventListener("deviceready", function () {
-
-      $cordovaDatePicker.show(options).then(function(date){
-        console.log(date);
-      });
-
-    }, false);
     $scope.loadFile = function(file){
         $scope.file = file;
     }
