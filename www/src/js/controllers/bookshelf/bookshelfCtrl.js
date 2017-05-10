@@ -1,10 +1,12 @@
-app.controller('bookshelfCtrl',['$scope','httpService','curUserService','localStorage','Upload','Popup','fileTransferHelper','$state','Config',
-	function($scope, httpService,curUserService,localStorage,Upload,Popup,fileTransferHelper,$state,configs) {
-     var curUser = curUserService.getCurUser(),page=1;
+app.controller('bookshelfCtrl',['$scope','httpService','curUserService','localStorage','Upload','$timeout','Popup','fileTransferHelper','$state','Config',
+	function($scope, httpService,curUserService,localStorage,Upload,$timeout,Popup,fileTransferHelper,$state,configs) {
+    curUserService.test();
+    var curUser = curUserService.getCurUser(),page=1;
      $scope.books = [];
     $scope.noMoreItemsAvailable = false;
-    $scope.isLogined = curUserService.getIsLogined();
+    $scope.isLogined = true;// curUserService.getIsLogined();
     $scope.files=[];
+
     $scope.viewBook = function(i) {
       if ($scope.isLogined) {
         fileTransferHelper.setter($scope.books[i].booksId);
@@ -27,12 +29,13 @@ app.controller('bookshelfCtrl',['$scope','httpService','curUserService','localSt
 
     var loadByUid = function(uid){
       var param = {page:page,pageSize:10};
-      httpService.post('bookShelf/list/'+uid,param,function(){
-        if(d.data.length == 0){
+      httpService.post('bookShelf/list/'+uid,param).success(function(data){
+        console.log(data);
+        if(data.total == 0){
           $scope.noMoreItemsAvailable = true;
         }else {
           page++;
-          $scope.books = $scope.books.concat(d.data);
+          $scope.books = $scope.books.concat(data.data);
           angular.forEach($scope.books,function(d){
             d.imgPath = config.imgPrefix + d.imgPath;
             d.filePath = config.filePrefix + d.filePath;
@@ -43,13 +46,12 @@ app.controller('bookshelfCtrl',['$scope','httpService','curUserService','localSt
     }
 
     $scope.loadFiles= function(files){
-      $scope.files =$scope.files.concat(files);
       if(!$scope.isLogined){
         addToLocals(files);
         var books = localStorage.getObject('bookShelfItem');
         $scope.books = $scope.books.concat(books);
       }else{
-        doUpload($scope.files);
+        doUpload(files);
       }
     }
 
@@ -88,18 +90,18 @@ app.controller('bookshelfCtrl',['$scope','httpService','curUserService','localSt
           var  bookShelf = {booksId:fileId,uid:curUser.uid};
           params.push(bookShelf);
         });
+        var page = {data:params};
 
-        httpService.put('bookShelf/createBatch',params,function(d){
-          if(d.data == fileIds.length){
+        httpService.put('bookShelf/createBatch',page).success(function(d){
+          console.log(d);
+          if(d > 0){
             Popup.alert('导入成功!');
             loadBooksInfo(fileIds);
           }
         });
     }
-    var loadBooksInfo = function(ids){
-        httpService.post('books/listByArray',ids,function(d){
-          $scope.books = d.data;
-        });
+    var loadBooksInfo = function(){
+      loadByUid(curUser.uid);
     }
 
     loadFromLocalStorage();

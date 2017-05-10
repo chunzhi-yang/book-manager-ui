@@ -46,7 +46,7 @@ app.controller('bookshelfViewCtrl',['$window','$scope','httpService','$ionicModa
     function readFile(blob, callback) {
       var a = new FileReader();
       a.onload = function(e) {callback(e.target.result);};
-      a.readAsText(blob,'UTF-8');
+      a.readAsText(blob,'utf-8');
     }
     var loadInfo = function(){
        if(isLogined){
@@ -60,12 +60,12 @@ app.controller('bookshelfViewCtrl',['$window','$scope','httpService','$ionicModa
       console.log(sliceIndex);
       if(sliceIndex == total){
         readFile(bookFile.slice((sliceIndex-1)*itemSize,(sliceIndex-1)*itemSize+lastLeft),function(result){
-          $scope.textContent +=  result.toString();
+          $scope.textContent +=  result;
         });
         $scope.noMoreItemsAvailable = true;
       }else if(sliceIndex < total){
         readFile(bookFile.slice((sliceIndex-1)*itemSize,(sliceIndex-1)*itemSize+itemSize),function(result){
-          $scope.textContent =  $scope.textContent + result.toString();
+          $scope.textContent =  $scope.textContent + result;
 
         });
       }

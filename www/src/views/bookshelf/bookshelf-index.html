@@ -6,7 +6,7 @@
 				  collection-repeat="item in books"
              item-width="'50%'"  item-height="140px">
           <a  class="button button-block" ng-click="viewBook($index)" >
- 						<span class="item">{{item.bookName}}</span>
+ 						<span class="item">{{item.booksId}}</span>
             <span>{{item.author?item.author:'未知作者'}}</span>
           </a>
           <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadByUid()" distance="10%"></ion-infinite-scroll>
