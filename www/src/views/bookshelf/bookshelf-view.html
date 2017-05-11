@@ -1,10 +1,19 @@
-<ion-nav-view  title="书架" ng-controller="bookshelfViewCtrl">
-
+<ion-view  title="书架" ng-controller="bookshelfViewCtrl">
+  <ion-header-bar align-title="center" >
+    <a ui-sref="app.bookshelf.index" class="button button-clear button-balanced"><i class="ion-arrow-left-c"></i>返回</a>
+  </ion-header-bar>
   <ion-content class="energized-bg">
-	  <div class="energized-bg" ng-click="modal.show()" ng-if="filePath">
+	  <div class="energized-bg" ng-click="modal.show()" ng-if="filePath" ng-style="{
+      'font-family':'Verdana,Arial,Helvetica,sans-serif,Consolas',
+      'font-size': fontSize+'px',
+      'background-color': backdrop,
+      'line-height': 2.0,
+      'padding': '30px 10px'}">
 	  	{{textContent}}
-      <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%"></ion-infinite-scroll>
     </div>
+    <popup ng-if="loading" close="loading=false">
+      <div class="light">读取中...</div>
+    </popup>
     <div class="energized-bg" ng-click="modal.show()" ng-if="!filePath" ng-style="{
       'font-family':'Verdana,Arial,Helvetica,sans-serif,Consolas',
       'font-size': fontSize+'px',
@@ -14,9 +23,9 @@
     </div>
     <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%"></ion-infinite-scroll>
   </ion-content>
-</ion-nav-view>
+</ion-view>
 <script type="text/ng-template" id="operateMenu.html">
-  <ion-modal-view style="margin-top:450px;">
+  <ion-modal-view >
      <ion-content>
        <ion-list>
           <div class="item range full-image">
@@ -58,12 +67,8 @@
             <ion-tab>
 
                 <div class="item  item-borderless light-bg"
-                     collection-repeat="item in chapterItems"
+                     collection-repeat="item in chapters"
                      item-width="'100%'"  item-height="16px">
-                  <a  class="button button-block" ng-click="viewBook($index)" >
-                    <span class="item">{{item.data}}</span>
-                  </a>
-                  <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadDatas()" distance="10%"></ion-infinite-scroll>
                 </div>
 
             </ion-tab>

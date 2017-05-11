@@ -9,7 +9,7 @@ app.controller('bookshelfCtrl',['$scope','httpService','curUserService','localSt
 
     $scope.viewBook = function(i) {
       if ($scope.isLogined) {
-        fileTransferHelper.setter($scope.books[i].booksId);
+        fileTransferHelper.setter(i);
       } else {
         fileTransferHelper.setter($scope.files[i]);
       }
@@ -28,17 +28,17 @@ app.controller('bookshelfCtrl',['$scope','httpService','curUserService','localSt
 
 
     var loadByUid = function(uid){
-      var param = {page:page,pageSize:10};
+      var param = {page:page,pageSize:100};
       httpService.post('bookShelf/list/'+uid,param).success(function(data){
         console.log(data);
         if(data.total == 0){
           $scope.noMoreItemsAvailable = true;
         }else {
-          page++;
-          $scope.books = $scope.books.concat(data.data);
-          angular.forEach($scope.books,function(d){
-            d.imgPath = config.imgPrefix + d.imgPath;
-            d.filePath = config.filePrefix + d.filePath;
+          $scope.books = [];
+          angular.forEach(data.data,function(d){
+            httpService.post('books/'+d.booksId).success(function(book){
+              $scope.books.push(book);
+            });
           });
         }
         $scope.$broadcast('scroll.infiniteScrollComplete');
@@ -72,6 +72,7 @@ app.controller('bookshelfCtrl',['$scope','httpService','curUserService','localSt
            }
          }).then(function (response) {
            $timeout(function () {
+             console.log(response);
              insertBookShelf( response.data);
            });
          }, function (response) {
@@ -84,10 +85,10 @@ app.controller('bookshelfCtrl',['$scope','httpService','curUserService','localSt
          });
        }
      }
-    var insertBookShelf = function(fileIds){
+    var insertBookShelf = function(books){
         var params = [];
-        angular.forEach(fileIds,function(fileId){
-          var  bookShelf = {booksId:fileId,uid:curUser.uid};
+        angular.forEach(books,function(book){
+          var  bookShelf = {booksId:book.booksId,uid:curUser.uid};
           params.push(bookShelf);
         });
         var page = {data:params};
@@ -96,7 +97,7 @@ app.controller('bookshelfCtrl',['$scope','httpService','curUserService','localSt
           console.log(d);
           if(d > 0){
             Popup.alert('导入成功!');
-            loadBooksInfo(fileIds);
+            loadBooksInfo();
           }
         });
     }
