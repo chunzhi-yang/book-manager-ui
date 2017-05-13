@@ -7,7 +7,7 @@ app.controller('bookshelfCtrl',['$scope','httpService','curUserService','localSt
     $scope.files=[];
     $scope.viewBook = function(i) {
       if ($scope.isLogined) {
-        fileTransferHelper.setter($scope.books[i].booksId);
+        fileTransferHelper.setter($scope.books[i].bookName);
       } else {
         fileTransferHelper.setter($scope.files[i]);
       }
@@ -98,7 +98,7 @@ app.controller('bookshelfCtrl',['$scope','httpService','curUserService','localSt
     }
     var loadBooksInfo = function(ids){
         httpService.post('books/listByArray',ids,function(d){
-          $scope.books = d.data;
+          $scope.books = $scope.books.concat(d.data);
         });
     }
 

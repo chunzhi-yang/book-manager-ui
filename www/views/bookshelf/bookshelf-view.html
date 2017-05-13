@@ -1,4 +1,4 @@
-<ion-nav-view title="书架" ng-controller="bookshelfViewCtrl"><ion-content class="energized-bg"><div class="energized-bg" ng-click="modal.show()" ng-if="filePath">{{textContent}}<ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%"></ion-infinite-scroll></div><div class="energized-bg" ng-click="modal.show()" ng-if="!filePath" ng-style="{
+<ion-nav-view title="书架" ng-controller="bookshelfViewCtrl"><ion-content class="energized-bg"><div class="energized-bg" ng-click="modal.show()" ng-if="filePath">{{textContent}}<ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadContent()" distance="10%"></ion-infinite-scroll></div><div class="energized-bg" ng-click="modal.show()" ng-if="!filePath" ng-style="{
       'font-family':'Verdana,Arial,Helvetica,sans-serif,Consolas',
       'font-size': fontSize+'px',
       'line-height': 2.0,
