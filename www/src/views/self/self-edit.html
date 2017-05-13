@@ -1,5 +1,10 @@
-<ion-view title="个人信息" ng-controller="selfEditCtrl">
+<ion-view  ng-controller="selfEditCtrl">
   <form name="_userInfo" novalidate>
+  <ion-header-bar align-title="center" >
+    <a ui-sref="app.self.index" class="button button-clear button-balanced"><i class="ion-arrow-left-c"></i>返回</a>
+    <button type="submit" ng-click="submitForm()"  ng-disabled="_userInfo.$invalid"  class="button button-assertive pull-right">
+      <i class="ion-checkmark"></i>修改 </button>
+  </ion-header-bar>
 
     <ion-content>
       <div class="list">
@@ -16,7 +21,7 @@
         </label>
         <label class="item  item-input">
           <span class="input-label"> 性别 </span>
-           <ion-radio ng-repeat="item in items" ng-model="userInfo.sex" ng-value="$index">{{item}}</ion-radio>
+           <ion-radio class="item-radio item-borderless item-light" ng-repeat="item in items" ng-model="userInfo.sex" ng-value="$index">{{item}}</ion-radio>
         </label>
         <label class="item item-input">
           <span class="input-label">生日  </span>
@@ -43,8 +48,6 @@
           <input type="text" name="description" ng-model="userInfo.description">
         </label>
       </div>
-       <button type="submit" ng-click="submitForm()"  ng-disabled="_userInfo.$invalid"  class="button button-assertive button-block">
-        <i class="ion-checkmark"></i>修改 </button>
     </ion-content>
   </form>
 </ion-view>

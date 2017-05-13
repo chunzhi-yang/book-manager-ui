@@ -71,7 +71,7 @@ app.service('httpService',['$http','Config',function($http,configs){
   }
 
   this.test = function(){
-    curUser = {usersId: 2, uid: "20170425231430000", userName: "chunzhi123", sex: 0,birth: new Date('1992-12-27 18:00:50')};
+    curUser = {usersId: 2, uid: "20170425231432000", userName: "chunzhi123", sex: 0,birth: new Date('1992-12-27 18:00:50')};
   }
 
   this.getCurUser =function (){
@@ -90,6 +90,7 @@ app.service('httpService',['$http','Config',function($http,configs){
     param = p;
   }
   this.getter = function(){
+    console.log(param);
     return param;
   }
 }).factory('localStorage',['$window',function($window){

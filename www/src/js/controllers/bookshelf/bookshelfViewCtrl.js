@@ -1,11 +1,12 @@
-app.controller('bookshelfViewCtrl',['$window','$scope','httpService','$ionicModal','fileTransferHelper','curUserService','Config',
-	function($window,$scope, httpService,$ionicModal,fileTransferHelper,curUserService,config) {
+app.controller('bookshelfViewCtrl',['$window','$scope','httpService','$ionicModal','fileTransferHelper','curUserService','Config','Popup',
+	function($window,$scope, httpService,$ionicModal,fileTransferHelper,curUserService,config,Popup) {
     $scope.fontSize = '12';
     $scope.chapter = 1;
+    curUserService.test();
     var curUser = curUserService.getCurUser(),
-      isLogined = curUserService.getIsLogined(),
+      isLogined = true//curUserService.getIsLogined(),
 
-      sliceIndex=1,
+      ,sliceIndex=1,
 
       bookFile = fileTransferHelper.getter(),
       itemSize = getItemSize(),
@@ -47,7 +48,7 @@ app.controller('bookshelfViewCtrl',['$window','$scope','httpService','$ionicModa
     function readFile(blob, callback) {
       var a = new FileReader();
       a.onload = function(e) {callback(e.target.result);};
-      a.readAsText(blob,'UTF-8');
+      a.readAsText(blob,'utf-8');
     }
     $scope.loadContent = function(){
 
@@ -60,12 +61,12 @@ app.controller('bookshelfViewCtrl',['$window','$scope','httpService','$ionicModa
     $scope.loadMore = function(){
       if(sliceIndex == total){
         readFile(bookFile.slice((sliceIndex-1)*itemSize,(sliceIndex-1)*itemSize+lastLeft),function(result){
-          $scope.textContent +=  result.toString();
+          $scope.textContent +=  result;
         });
         $scope.noMoreItemsAvailable = true;
       }else if(sliceIndex < total){
         readFile(bookFile.slice((sliceIndex-1)*itemSize,(sliceIndex-1)*itemSize+itemSize),function(result){
-          $scope.textContent =  $scope.textContent + result.toString();
+          $scope.textContent =  $scope.textContent + result;
 
         });
       }
