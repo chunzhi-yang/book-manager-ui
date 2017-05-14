@@ -1,18 +1,24 @@
 <ion-view view-title="个人云盘" ng-controller="selfDiskCtrl">
-  <ion-header-bar class="bar bar-assertive" title="" align-title="center"> <a ui-sref="app.self.index" class="button button-clear button-balanced"><i class="ion-arrow-left-c"></i>返回</a></ion-header-bar>
+  <ion-header-bar class="bar bar-light" title="" align-title="center">
+    <a ui-sref="app.self.index" class="button button-clear button-dark">
+      <i class="ion-arrow-left-c"></i>返回</a>
+  </ion-header-bar>
   <ion-content class="padding">
-    <button class="button button-block balanced-bg card"  ngf-select ng-model="file"
-            ngf-validate="{size: {max:'15MB'}}" ng-change="loadFile(file)" ngf-pattern="text/*">
+    <ion-refresher
+                   pulling-text="下拉刷新..."
+                   on-refresh="doRefresh()">
+    </ion-refresher>
+    <button class="button button-block balanced-bg card"  ngf-select ng-model="files" ngf-multiple="true"
+            ngf-validate="{size: {max:'25MB'}}" accept="text/plain" ng-change="loadFiles(files)" ngf-pattern="text/*">
       <img ngf-src="file">选择文件
     </button>
     <div class="item  item-borderless light-bg"
          collection-repeat="item in books"
          item-width="'50%'"  item-height="140px">
-      <a  class="button button-block" ng-click="viewBook($index)" >
+      <a  class="button button-block"  ng-href="#login/bookshelf/view/{{item.filePath}}" >
         <span class="item">{{item.bookName}}</span>
         <span>{{item.author?item.author:'未知作者'}}</span>
       </a>
-      <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadByUid()" distance="10%"></ion-infinite-scroll>
     </div>
 
 

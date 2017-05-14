@@ -1,21 +1,21 @@
 app.controller('bookshelfCtrl',['$scope','httpService','curUserService','localStorage','Upload','$timeout','Popup','fileTransferHelper','$state','Config',
 	function($scope, httpService,curUserService,localStorage,Upload,$timeout,Popup,fileTransferHelper,$state,configs) {
-    curUserService.test();
+
     var curUser = curUserService.getCurUser(),page=1;
      $scope.books = [];
     $scope.noMoreItemsAvailable = false;
-    $scope.isLogined = true;// curUserService.getIsLogined();
+    $scope.isLogined = curUserService.getIsLogined();
     $scope.files=[];
 
-    $scope.viewBook = function(i) {
-      if ($scope.isLogined) {
-        fileTransferHelper.setter($scope.books[i].bookName);
-      } else {
-        fileTransferHelper.setter($scope.files[i]);
-      }
+    $scope.viewBook = function(i,eve) {
+        if($scope.isLogined){
+          return;
+        }
+       fileTransferHelper.setter($scope.files[i]);
       $state.go('login.bookshelf.view');
     }
     var loadFromLocalStorage = function(){
+      console.log($scope.isLogined);
       if($scope.isLogined){
         loadByUid(curUser.uid);
       }else{
@@ -23,14 +23,13 @@ app.controller('bookshelfCtrl',['$scope','httpService','curUserService','localSt
         for(var local in locals){
            $scope.books.push(local);
         }
+
       }
     }
-
-
     var loadByUid = function(uid){
       var param = {page:page,pageSize:100};
       httpService.post('bookShelf/list/'+uid,param).success(function(data){
-        console.log(data);
+
         if(data.total == 0){
           $scope.noMoreItemsAvailable = true;
         }else {
@@ -40,11 +39,11 @@ app.controller('bookshelfCtrl',['$scope','httpService','curUserService','localSt
               $scope.books.push(book);
             });
           });
+
         }
         $scope.$broadcast('scroll.infiniteScrollComplete');
       });
     }
-
     $scope.loadFiles= function(files){
       if(!$scope.isLogined){
         addToLocals(files);
@@ -60,19 +59,20 @@ app.controller('bookshelfCtrl',['$scope','httpService','curUserService','localSt
       for(var i=0;i < files.length;i++) {
         books.push({bookName: files[i].name});
         localStorage.setObject('bookShelfItem', books);
+        $scope.files.push(files[i]);
       }
-      $scope.files = $scope.files.concat(files);
     }
      function doUpload(files){
        if (files && files.length) {
          Upload.upload({
            url: configs.serverUrl+'/bookShelf/upload',
            data: {
-             files: files
+             files: files,
+             uid: '-1'
            }
          }).then(function (response) {
            $timeout(function () {
-             console.log(response);
+
              insertBookShelf( response.data);
            });
          }, function (response) {
@@ -94,16 +94,13 @@ app.controller('bookshelfCtrl',['$scope','httpService','curUserService','localSt
         var page = {data:params};
 
         httpService.put('bookShelf/createBatch',page).success(function(d){
-          console.log(d);
           if(d > 0){
             Popup.alert('导入成功!');
-            loadBooksInfo();
+            loadByUid(curUser.uid);
           }
         });
     }
-    var loadBooksInfo = function(){
-      loadByUid(curUser.uid);
-    }
+
 
     loadFromLocalStorage();
 }]);

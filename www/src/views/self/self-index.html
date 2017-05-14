@@ -15,10 +15,16 @@
             <i class="ion-ios-cart ion-android-cart"></i>
             购买记录
           </a>
-          <a ng-href="#/login/self/setting" class="item ">
-            <i class="ion-settings"></i>
-            设置
-          </a>
+
+          <div class="item item-toggle">
+            夜间模式
+            <label class="toggle toggle-assertive">
+              <input type="checkbox" ng-model="darkTheme" ng-change="loadTheme(darkTheme)">
+              <div class="track">
+                <div class="handle"></div>
+              </div>
+            </label>
+          </div>
         </ion-list>
   </ion-content>
 </ion-view>

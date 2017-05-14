@@ -1,4 +1,9 @@
 app.controller('selfCtrl', ['$scope','curUserService',function($scope,curUserService) {
-  //curUserService.test();
-  $scope.user = curUserService.getCurUser();
+   $scope.user = curUserService.getCurUser();
+  $scope.darkTheme = curUserService.getDarkTheme();
+  $scope.loadTheme = function(t){
+    $scope.darkTheme = t;
+    curUserService.setDarkTheme(t);
+  }
+
 }]);

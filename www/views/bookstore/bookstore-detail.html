@@ -1,1 +1,37 @@
-<ion-view view-title="书城" ng-controller="bookstoreDetailCtrl"><ion-header-bar><a ui-sref="app.bookstore.index" class="button button-clear button-balanced"><i class="ion-arrow-left-c"></i>返回</a></ion-header-bar><ion-content><ion-list><ion-item class="item-thumbnail-right item-borderless"><img class="card" ng-src="{{book.imgPath}}"><div class="card padding-left padding-top">书名:{{book.bookName}}<label class="block">作者:{{book.author}}</label><label class="block">更新时间:{{book.updatedTime|date:'yyyy-MM-dd HH:mm:ss'}}</label>评分:{{book.hotScore}}</div><div class="item item-borderless">简介：{{book.description}}</div><div class="item col-50 row-center col-center text-center item-balanced" style="margin:0 auto"><a ng-click="share()" class="dark"><i class="ion-share"></i>分享给好友</a></div><div class="item-borderless item item-icon-right"><a ng-click="showChapters()" class="dark">查看目录：共{{totalChapters}}章</a> <i class="ion-chevron-right"></i></div><div class="item col-50 row-center col-center text-center item-energized" style="margin:0 auto"><a ng-click="addOrder()" class="dark"><i class="ion-ios-cart ion-android-cart"></i>购买</a></div></ion-item></ion-list></ion-content></ion-view>
+<ion-view view-title="书城" ng-controller="bookstoreDetailCtrl"><ion-header-bar class="bar bar-light"><a ui-sref="app.bookstore.index" class="button button-clear button-dark"><i class="ion-arrow-left-c"></i>返回</a></ion-header-bar><ion-content><ion-list><ion-item class="item-thumbnail-right item-borderless"><img class="card" ng-src="{{book.imgPath}}"><div class="card padding-left padding-top">书名:{{book.bookName}}<label class="block">作者:{{book.author}}</label><label class="block">更新时间:{{book.updatedTime|date:'yyyy-MM-dd HH:mm:ss'}}</label>评分:{{book.hotScore}}</div><div class="item item-borderless">简介：{{book.description}}</div><div class="item col-50 row-center col-center text-center item-balanced" style="margin:0 auto"><a ng-click="share()" class="dark"><i class="ion-share"></i>分享给好友</a></div><div class="item-borderless item item-icon-right"><a ng-click="showChapters()" class="dark">查看目录：共{{chapterLength}}章</a> <i class="ion-chevron-right"></i></div><div class="item col-50 row-center col-center text-center item-energized" style="margin:0 auto"><a ng-click="addOrder()" class="dark"><i class="ion-ios-cart ion-android-cart"></i>购买</a></div></ion-item></ion-list></ion-content></ion-view><script type="text/ng-template" id="chapterPage.html"><ion-modal-view>
+
+    <ion-content>
+      <ion-tabs class="tabs-top  card tabs-background-light">
+        <a class="tab-item col-50"><h5>.</h5>目录</a>
+        <ion-tab>
+
+          <a class="item  item-borderless light-bg" ng-click="changeProcess($index)"
+             collection-repeat="item in chapterList"
+             item-width="'100%'"  item-height="40px">
+            {{item.chapterName}}
+          </a>
+
+        </ion-tab>
+      </ion-tabs>
+    </ion-content>
+  </ion-modal-view></script><script type="text/ng-template" id="order.html"><ion-modal-view>
+    <ion-content>
+      <form novalidate name="orderForm" ng-submit="doSubmit()">
+        <div class="list">
+          <label class="item item-input">
+            <span class="input-label">购买章节数： </span>
+            <input type="number" name="amount" ng-model="amount" ng-change="changeAmount(amount)" required>
+          </label>
+                 <span ng-show="orderForm.amount.$error || orderForm.amount.$dirty" ng-hide="orderForm.amount.$valid || orderForm.amount.$pristine" ng-messages="orderForm.amount.$dirty&&orderForm.amount.$error" style="color:maroon" class="item" role="alert">
+                      <div ng-message="required" class="font-small">请输入购买章节数</div>
+                 </span>
+          <div class="item item-borderless light-bg">
+              共计{{unitPrice*amount}}
+          </div>
+          <div class="item text-center">
+            <button class="button button-positive" ng-disabled="orderForm.$invalid" type="submit">确定</button>
+          </div>
+        </div>
+      </form>
+    </ion-content>
+  </ion-modal-view></script>

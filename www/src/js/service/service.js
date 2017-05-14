@@ -31,8 +31,15 @@ app.service('httpService',['$http','Config',function($http,configs){
   var curUser = {};
   var rememberMe = false;
   var isLogined = false;
+  var darkTheme = false;
   this.getIsLogined = function(){
     return isLogined;
+  }
+  this.setDarkTheme = function(t){
+    darkTheme = t;
+  }
+  this.getDarkTheme = function(){
+    return darkTheme;
   }
   this.doLogin = function(params){
     var promise =httpService.post( '/login/signin', params);
@@ -71,7 +78,7 @@ app.service('httpService',['$http','Config',function($http,configs){
   }
 
   this.test = function(){
-    curUser = {usersId: 2, uid: "20170425231432000", userName: "chunzhi123", sex: 0,birth: new Date('1992-12-27 18:00:50')};
+    curUser = {usersId: 2, uid: "20170425231430000", userName: "chunzhi123", sex: 0,birth: new Date('1992-12-27 18:00:50')};
   }
 
   this.getCurUser =function (){
@@ -84,16 +91,15 @@ app.service('httpService',['$http','Config',function($http,configs){
   this.getRemeberMe = function (){
     return rememberMe;
   }
-}]).service('fileTransferHelper',function(){
-  var param = {};
+}]).service('fileTransferHelper',['curUserService',function(curUserService){
+  var param={};
   this.setter = function(p){
     param = p;
   }
   this.getter = function(){
-    console.log(param);
     return param;
   }
-}).factory('localStorage',['$window',function($window){
+}]).factory('localStorage',['$window',function($window){
   return{        //存储单个属性
     set :function(key,value){
       $window.localStorage[key]=value;

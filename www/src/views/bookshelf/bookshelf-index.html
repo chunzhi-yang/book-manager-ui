@@ -5,14 +5,15 @@
         <div class="item  item-borderless light-bg"
 				  collection-repeat="item in books"
              item-width="'50%'"  item-height="140px">
-          <a  class="button button-block" ng-click="viewBook(item.filePath)" >
+          <a  class="button button-block"   ng-click="viewBook($index) " ng-href="#login/bookshelf/view/{{item.filePath}}" >
  						<span class="item">{{item.bookName}}</span>
             <span>{{item.author?item.author:'未知作者'}}</span>
           </a>
         </div>
+
     <div class="item  item-borderless col-50 light-bg">
       <button class="button button-block" id="file" ngf-select ng-model="files" ngf-multiple="true"
-              ngf-validate="{size: {max:'20MB'}}" ng-change="loadFiles(files)" accept="text/plain" ngf-pattern="text/*">
+              ngf-validate="{size: {max:'25MB'}}" ng-change="loadFiles(files)" accept="text/plain" ngf-pattern="text/*">
         <h1>+</h1>
       </button>
       </div>

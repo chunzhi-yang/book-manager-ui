@@ -1,0 +1,40 @@
+<ion-view view-title="我的账户" ng-controller="selfAccountCtrl">
+  <ion-header-bar class="bar bar-light" align-title="center">
+    <a ui-sref="app.self.index" class="button button-clear button-dark">
+      <i class="ion-arrow-left-c"></i>返回</a>
+  </ion-header-bar>
+  <ion-content>
+    <ion-refresher
+      pulling-text="下拉刷新..."
+      on-refresh="doRefresh()">
+    </ion-refresher>
+   	   <ion-list>
+          <ion-item>余额：{{account.remain}}元</ion-item>
+         <ion-item>更新时间：{{account.updatedTime|date:'yyyy-MM-dd'}}</ion-item>
+         <ion-item class="text-center"><a class="button button-balanced col-40" ng-click="openModal()">充值</a>
+           <a class="button button-dark button col-offset-10 col-50"ng-href="#login/self/accountlog/{{usingUid}}">查看记录</a>
+         </ion-item>
+       </ion-list>
+  </ion-content>
+</ion-view>
+<script type="text/ng-template" id="charge.html">
+  <ion-modal-view>
+    <ion-content>
+        <form novalidate name="chargeForm" ng-submit="doSubmit()">
+            <div class="list">
+              <label class="item item-input">
+                <span class="input-label">充值金额 </span>
+                <input type="text" name="amount" ng-model="amount" ng-change="changeAmount(amount)" required>
+              </label>
+                 <span ng-show="chargeForm.amount.$error || chargeForm.amount.$dirty" ng-hide="chargeForm.amount.$valid || chargeForm.amount.$pristine" ng-messages="chargeForm.amount.$dirty&&chargeForm.amount.$error" style="color:maroon" class="item" role="alert">
+                      <div ng-message="required" class="font-small">请输入充值金额</div>
+                 </span>
+              <div class="item text-center">
+                  <button class="button button-positive" ng-disabled="chargeForm.$invalid" type="submit">确定</button>
+              </div>
+            </div>
+        </form>
+    </ion-content>
+  </ion-modal-view>
+</script>
+

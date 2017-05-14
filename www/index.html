@@ -20,6 +20,8 @@
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above    -->
     <link href="css/ionic-app.css" rel="stylesheet">
+    <link rel="stylesheet" href="lib/ng-dialog/css/ngDialog.min.css">
+    <link rel="stylesheet" href="lib/ng-dialog/css/ngDialog-theme-default.min.css">
     <link href="css/login/login.css" rel="stylesheet">
     <link href="css/bookstore/bookstore.css" rel="stylesheet">
     <link href="lib/ionic-datepicker/dist/style.css" rel="stylesheet">
@@ -28,11 +30,11 @@
     <script src="lib/ionic/js/ionic.bundle.min.js"></script>
     <script src="lib/ngCordova/dist/ng-cordova.js"></script>
     <script src="cordova.js"></script>
+    <script src="lib/ng-dialog/js/ngDialog.min.js"></script>
     <script src="lib/jquery/dist/jquery.min.js"></script>
     <script src="lib/security.js"></script>
     <script src="lib/moment/moment.js"></script>
-    <script src="lib/ionic-datepicker/dist/templates.min.js"></script>
-    <script src="lib/ionic-datepicker/dist/ionic-datepicker.min.js"></script>
+    <script src="lib/ionic-datepicker/dist/ionic-datepicker.bundle.min.js"></script>
     <script src="lib/angular-popups/dist/angular-popups.js"></script>
     <script src="lib/ng-file-upload/ng-file-upload.min.js"></script>
     <script src="lib/ng-file-upload/ng-file-upload-shim.min.js"></script>
@@ -41,7 +43,8 @@
     <script src="js/config/config.js"></script>
     <script src="js/service/service.js"></script>
     <script src="js/directive/directive.js"></script>
-
+    <script src="js/loginCtrl.js"></script>
+    <script src="js/mainCtrl.js"></script>
     <script src="js/controllers/bookstore/bookstoreCtrl.js"></script>
     <script src="js/controllers/bookstore/bookstoreDetailCtrl.js"></script>
 
@@ -52,10 +55,9 @@
     <script src="js/controllers/self/selfEditCtrl.js"></script>
     <script src="js/controllers/self/selfOrderCtrl.js"></script>
     <script src="js/controllers/self/selfDiskCtrl.js"></script>
-    <script src="js/controllers/self/settingCtrl.js"></script>
+    <script src="js/controllers/self/selfAccountCtrl.js"></script>
 
-    <script src="js/loginCtrl.js"></script>
-    <script src="js/mainCtrl.js"></script>
+
   </head>
 
   <body ng-app="starter">

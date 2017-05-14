@@ -1,9 +1,7 @@
-app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateParams','$filter','curUserService','Config',
-  function($scope,Upload,httpService,$state,$stateParams,$filter,curUserService,configs) {
+app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateParams','ionicDatePicker','curUserService','Config',
+  function($scope,Upload,httpService,$state,$stateParams,ionicDatePicker,curUserService,configs) {
     $scope.userInfo = curUserService.getCurUser();
-
-    //$scope.userInfo.birth = $filter('date')($scope.userInfo.birth,'yyyy-MM-dd HH:mm:ss');
-   // $scope.userInfo.birth =  $filter('date')($scope.userInfo.birth,'yyyy-MM-dd HH:mm:ss');
+    $scope.userInfo.birth = moment( $scope.userInfo.birth).format('YYYY-MM-DD');
     $scope.items=["男","女"];
 
     $scope.submitForm = function(){
@@ -11,16 +9,39 @@ app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateP
 
     }
 
-    $scope.minDate = new Date(1970, 1, 1);
-    $scope.maxDate = new Date();
-
-    $scope.datePickerCallback = function (val) {
-      if (!val) {
-        console.log('Date not selected');
-      } else {
-        $scope.userInfo.birth = val;
+    $scope.openDatePicker = function() {
+      var dlg = {
+        callback: function (val) {  //Mandatory
+          if (!val) {
+            console.log('Date not selected');
+          } else {
+            $scope.userInfo.birth = moment(val).format('YYYY-MM-DD');
+          }
+        },
+        disabledDates: [
+          new Date(1437719836326),
+          new Date(2016, 1, 25),
+          new Date(2015, 7, 10),
+          new Date('Wednesday, August 12, 2015'),
+          new Date("08-14-2015"),
+          new Date(1439676000000),
+          new Date(1456511400000)
+        ],
+        from: new Date(1970, 1, 1),
+        to: new Date(),
+        dateFormat: 'yyyy-MM-dd',
+        inputDate: new Date(),
+        mondayFirst: true,
+        showTodayButton: false,
+        closeOnSelect: false,
+        templateType: 'popup'
       }
-    };
+      ionicDatePicker.openDatePicker(dlg);
+    }
+
+
+
+
     $scope.loadFile = function(file){
         $scope.file = file;
     }
@@ -28,16 +49,19 @@ app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateP
       var curUserReq =  httpService.post( 'user/'+ $stateParams.account);
 
       curUserReq.then(function (data) {
-        if (data.data != '' && data.data.imgPath != undefined) {
-          data.data.imgPath = configs.imgPrefix  + data.data.imgPath;
-        }
         curUserService.setCurUser(data.data);
        $state.go('app.self.index');
       },function(error){
         console.log("下载头像失败:"+error);
       });
     }
-    $scope.upload = function (fn) {
+    $scope.upload = function () {
+      if(!$scope.file){
+        httpService.put('user/update',$scope.userInfo).success(function(d){
+          loadUser();
+        });
+        return;
+      }
       Upload.upload({
         url: configs.serverUrl+'/user/upload',
         data: {account:$scope.userInfo.userName},

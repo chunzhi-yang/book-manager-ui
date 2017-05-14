@@ -1,13 +1,36 @@
 'use strict';
 //输入校验
+app.directive('jxbBindCompiledHtml', function ($compile) {
+  'use strict';
 
+  return {
+    template: ' <div></div>',
+    scope: {
+      rawHtml: '=jxbBindCompiledHtml'
+    },
+    link: function (scope, elem, attrs) {
+      scope.$watch('rawHtml', function (value) {
+
+        if (!value) {
+          return;
+        }
+
+        // we want to use the scope OUTSIDE of this directive
+        // (which itself is an isolate scope).
+        var newElem = $compile($.parseHTML(value))(scope.$parent);
+        elem.contents().remove();
+        elem.append(newElem);
+      });
+    }
+  };
+});
 app.directive('bfAssertEquals',function (){
    return{
        restrict:'A',
        require:'ngModel',
        link:function(scope,element,attrs,ngModel){
            var isSame=function(value){
-               var second = scope.$eval(attrs.bfAssertEquals); 
+               var second = scope.$eval(attrs.bfAssertEquals);
                return value == second;
            }
            ngModel.$parsers.push(function(value){
@@ -18,7 +41,7 @@ app.directive('bfAssertEquals',function (){
                function(){
                    return scope.$eval(attrs.bfAssertEquals);
                },function(){
-                 
+
                    ngModel.$setValidity('same',isSame(ngModel.$modelValue));
                }
            );
@@ -44,7 +67,7 @@ app.directive('uniqueAccount',function(httpService,$q){
     }
   }
 });
- 
+
 app.directive('onFinishRender',function(){
     return{
         restrict: 'A',
@@ -60,7 +83,7 @@ app.directive('onFinishRender',function(){
 });
 
 
- 
+
 app.directive('usernameValidator', ['$log', function($log) {
     return {
         restrict: 'A',

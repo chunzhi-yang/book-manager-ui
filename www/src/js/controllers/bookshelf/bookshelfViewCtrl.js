@@ -1,71 +1,137 @@
-app.controller('bookshelfViewCtrl',['$window','$scope','httpService','$ionicModal','fileTransferHelper','curUserService','Config','Popup',
-	function($window,$scope, httpService,$ionicModal,fileTransferHelper,curUserService,config,Popup) {
+app.controller('bookshelfViewCtrl',['$window','$scope','httpService','ngDialog','fileTransferHelper',
+  'curUserService','Config','$stateParams',
+	function($window,$scope, httpService,ngDialog,fileTransferHelper,curUserService,config,$stateParams) {
+
     $scope.fontSize = '12';
-    $scope.chapter = 1;
-    curUserService.test();
-    var curUser = curUserService.getCurUser(),
-      isLogined = true//curUserService.getIsLogined(),
-
-      ,sliceIndex=1,
-
-      bookFile = fileTransferHelper.getter(),
-      itemSize = getItemSize(),
-      total = Math.ceil(bookFile.size/itemSize),
-      lastLeft =  bookFile.size%itemSize;
-
+    $scope.chapterIndex = 0;
+    var isLogined = curUserService.getIsLogined(),
+      colors = ['#11c1f3','#33cd5f','#ffc900','#444444','#f8f8f8'],
+      sliceIndex=1;
+    $scope.isLogined = isLogined;
     $scope.noMoreItemsAvailable = false;
 
-    $scope.larger = function(){
-       $scope.fontSize ++;
-    }
-    $scope.smaller = function(){
-      $scope.fontSize --;
-    }
     function getItemSize(){
       var height = $window.screen.height;
       var width = $window.screen.width;
       var pageTotal =  Math.floor(height*width/$scope.fontSize/8);
       pageTotal += (8-pageTotal%8);
-
-      console.log(pageTotal);
       return pageTotal;
     }
-    $scope.modal = $ionicModal.fromTemplateUrl('operateMenu.html', {
-      scope: $scope,
 
-    }).then(function(modal) {
-      $scope.modal = modal;
-    });
-    $scope.sideModal = $ionicModal.fromTemplateUrl('chapterPage.html', {
-      scope: $scope,
+    $scope.operateModal = function(){
+      var dlg = ngDialog.open({
+        template: 'operateMenu.html',
+        scope:$scope,
+        className: 'ngdialog-theme-default',
+        height: 300,
+        controller: function(){
+          $scope.readProcess = $scope.chapterIndex/$scope.chapterLength*100;
+          $scope.next = function(){
+            if($scope.readProcess < 0){
+              $scope.readProcess = 0;
+              return;
+            }
+            var chapterIndex = Math.ceil($scope.readProcess*$scope.chapterLength/100+1);
+             dlg.close(chapterIndex);
 
-    }).then(function(modal) {
-      $scope.sideModal = modal;
-    });
+          }
+          $scope.pre = function(){
+            if($scope.readProcess < 0){
+              $scope.readProcess = 0;
+              return;
+            }
+            var chapterIndex = Math.ceil($scope.readProcess/100*$scope.chapterLength-1);
+            dlg.close(chapterIndex);
+          }
+          $scope.openChapters = function(){
+            openSideModal();
+          }
+          $scope.changeStyle = function(i){
+            $scope.backdrop = colors[i];
+          }
+          $scope.larger = function(){
+            if($scope.fontSize > 30){
+              return;
+            }
+            $scope.fontSize ++;
+          }
+          $scope.smaller = function(){
+            if($scope.fontSize < 12){
+              return;
+            }
+            $scope.fontSize --;
+          }
 
+          $scope.changeProcess = function(i){
+            var chapterIndex = i*$scope.chapterLength/100;
+            dlg.close(Math.ceil(chapterIndex));
+          }
+        }
+      });
+      dlg.closePromise.then(function(r){
+        if(r.value != '$document'){
+           $scope.chapterIndex = r.value;
+           $scope.readProcess = Math.floor($scope.chapterIndex/$scope.chapterLength*100);
+           $scope.loadContent();
+        }
 
-
+      });
+    }
+    var openSideModal = function(){
+      var dlg = ngDialog.open({
+        template: 'chapterPage.html',
+        scope:$scope,
+        className: 'ngdialog-theme-default',
+        height: '100%',
+        controller: function(){
+          $scope.changeProcess = function(i){
+            dlg.close(Math.ceil(i));
+          }
+          dlg.closePromise.then(function(r){
+            if(r.value != '$document'){
+              $scope.chapterIndex = r.value;
+              $scope.readProcess = $scope.chapterIndex/$scope.chapterLength*100;
+              $scope.loadContent();
+            }
+          });
+        }
+      });
+    }
     function readFile(blob, callback) {
       var a = new FileReader();
       a.onload = function(e) {callback(e.target.result);};
       a.readAsText(blob,'utf-8');
     }
+
     $scope.loadContent = function(){
-
-          var filePath = fileTransferHelper.getter()+"_"+$scope.chapter;
+        if($scope.chapterLength <= $scope.chapterIndex || $scope.chapterIndex < 0){
+          return;
+        }
+          var fileName = $stateParams.fileName;
+          var filePath =fileName.substring(0,fileName.lastIndexOf("."))+ "_"+$scope.chapterIndex+fileName.substring(fileName.lastIndexOf("."));
           httpService.post('app/getOneChapter',{fileName:filePath}).success(function(d){
-              $scope.textContent = $scope.textContent + d;
+              $scope.textContent = d;
           });
-
+      $scope.loading = false;
+      $scope.$broadcast('scroll.refreshComplete');
+      $scope.$broadcast('scroll.infiniteScrollComplete');
+    }
+    $scope.loadContentMore = function(){
+      if($scope.chapterIndex >= $scope.chapterLength){
+        $scope.noMoreItemsAvailable = true;
+        return;
+      }
+      $scope.chapterIndex++;
+      $scope.loadContent();
     }
     $scope.loadMore = function(){
-      if(sliceIndex == total){
-        readFile(bookFile.slice((sliceIndex-1)*itemSize,(sliceIndex-1)*itemSize+lastLeft),function(result){
+      if(sliceIndex == $scope.total){
+        readFile($scope.bookFile.slice((sliceIndex-1)* $scope.itemSize,(sliceIndex-1)* $scope.itemSize+ $scope.lastLeft),function(result){
           $scope.textContent +=  result;
         });
         $scope.noMoreItemsAvailable = true;
-      }else if(sliceIndex < total){
-        readFile(bookFile.slice((sliceIndex-1)*itemSize,(sliceIndex-1)*itemSize+itemSize),function(result){
+      }else if(sliceIndex <  $scope.total){
+        readFile($scope.bookFile.slice((sliceIndex-1)* $scope.itemSize,(sliceIndex-1)* $scope.itemSize+ $scope.itemSize),function(result){
           $scope.textContent =  $scope.textContent + result;
 
         });
@@ -75,14 +141,40 @@ app.controller('bookshelfViewCtrl',['$window','$scope','httpService','$ionicModa
     }
 
     var loadChapters = function(){
-      httpService.post('booksWithChapters',{fileName:fileTransferHelper.getter()}).success(function(d){
-          console.log(d);
+      $scope.loading = true;
+      httpService.post('app/bookWithChapters',{fileName:$stateParams.fileName}).success(function(d){
+        $scope.chapterLength = d.length;
+        $scope.chapterList = d;
+        angular.forEach($scope.chapterList,function(eve){
+          eve.chapterName = eve.chapterName.trim();
+        });
+        $scope.loadContent();
       });
     }
-    if($scope.isLogined){
-      loadChapters();
+
+
+    $scope.doRefresh = function() {
+      if($scope.chapterIndex == 0){
+        $scope.noMoreItemsAvailable = true;
+        return;
+      }
+      $scope.chapterIndex --;
       $scope.loadContent();
-    }else{
-      $scope.loadMore();
+
     }
+
+    $scope.initCtrl = function(){
+      $scope.textContent = '';
+      if($scope.isLogined){
+        loadChapters();
+      }else{
+        $scope.bookFile = fileTransferHelper.getter();
+        $scope.itemSize = getItemSize(),
+          $scope.total = Math.ceil($scope.bookFile.size/ $scope.itemSize),
+          $scope.lastLeft =  $scope.bookFile.size% $scope.itemSize;
+        $scope.loadMore();
+      }
+    }
+    $scope.initCtrl();
 }]);
+

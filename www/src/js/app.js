@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-popups','ionic-datepicker'])
+var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-popups','ionic-datepicker','ngDialog'])
 
 .run(function($ionicPlatform) {
 
@@ -82,7 +82,7 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
     controller: 'bookshelfCtrl'
   })
   .state('login.bookshelf.view', {
-    url: '/view',
+    url: '/view/:fileName',
     templateUrl: 'views/bookshelf/bookshelf-view.html',
     controller: 'bookshelfViewCtrl'
   })
@@ -136,10 +136,15 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
         templateUrl: 'views/self/self-disk.html',
         controller: 'selfDiskCtrl'
       })
-      .state('login.self.setting', {
-        url: '/setting',
-        templateUrl: 'views/self/setting.html',
-        controller: 'settingCtrl'
+      .state('login.self.account', {
+        url: '/account',
+        templateUrl: 'views/self/self-account.html',
+        controller: 'selfAccountCtrl'
+      })
+      .state('login.self.accountlog', {
+        url: '/accountlog/:uid',
+        templateUrl: 'views/self/account-log.html',
+        controller: 'selfAccountCtrl'
       })
       .state('login.self.edit', {
         url: '/edit/:account',
