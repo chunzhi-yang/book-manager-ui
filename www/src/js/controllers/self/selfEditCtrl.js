@@ -1,7 +1,7 @@
 app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateParams','ionicDatePicker','curUserService','Config',
   function($scope,Upload,httpService,$state,$stateParams,ionicDatePicker,curUserService,configs) {
     $scope.userInfo = curUserService.getCurUser();
-    $scope.userInfo.birth = moment( $scope.userInfo.birth).format('YYYY-MM-DD');
+    $scope.userInfo.birthTxt = moment( $scope.userInfo.birth).format('YYYY-MM-DD');
     $scope.items=["男","女"];
 
     $scope.submitForm = function(){
@@ -15,7 +15,8 @@ app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateP
           if (!val) {
             console.log('Date not selected');
           } else {
-            $scope.userInfo.birth = moment(val).format('YYYY-MM-DD');
+            $scope.userInfo.birthTxt  = moment(val).format('YYYY-MM-DD');
+            $scope.userInfo.birth  = val;
           }
         },
         disabledDates: [
@@ -49,12 +50,10 @@ app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateP
       var curUserReq =  httpService.post( 'user/'+ $stateParams.account);
 
       curUserReq.success(function (data) {
-        if(data.imgPath) {
-          data.imgPath = configs.imgPrefix + data.imgPath;
-        }else{
+        if(!data.imgPath) {
           data.imgPath = data.sex ==0?'img/thumbnail-male.png':'img/thumbnail-female.png';
         }
-        console.log(data);
+
         curUserService.setCurUser(data);
        $state.go('app.self.index');
       },function(error){
@@ -84,7 +83,7 @@ app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateP
           console.log("上传失败");
       }).success(function (data, status, headers, config) {
 
-        $scope.userInfo.imgPath = data;
+        $scope.userInfo.imgPath = configs.imgPrefix +data;
         httpService.put('user/update',$scope.userInfo).success(function(d){
           loadUser();
 

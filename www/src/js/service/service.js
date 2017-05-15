@@ -47,8 +47,6 @@ app.service('httpService',['$http','Config',function($http,configs){
 
           if (!data.imgPath ){
             data.imgPath = data.sex ==0?'img/thumbnail-male.png':'img/thumbnail-female.png';
-          }else{
-            data.imgPath = config.imgPrefix + data.imgPath;
           }
           curUser = data;
           isLogined = true;
@@ -70,12 +68,8 @@ app.service('httpService',['$http','Config',function($http,configs){
     });
   }
 
-  this.test = function(){
-    curUser = {usersId: 2, uid: "20170425231430000", userName: "chunzhi123", sex: 0,birth: new Date('1992-12-27 18:00:50')};
-  }
 
   this.getCurUser =function (){
-    console.log(curUser);
     return curUser;
   }
   this.setCurUser =function (user){
