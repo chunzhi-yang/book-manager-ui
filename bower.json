@@ -1,8 +1,25 @@
 {
-  "name": "HelloIonic",
-  "private": "true",
-  "devDependencies": {
-    "ionic": "driftyco/ionic-bower#1.3.3",
-
+  "name": "book-manager-ui",
+  "description": "myBookManager: An Ionic project",
+  "main": "",
+  "authors": [
+    "chunzhi-yang <872373354@qq.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/chunzhi-yang/book-manager-ui",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "www/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "ng-file-upload": "^12.2.13",
+    "ngCordova": "^0.1.27-alpha",
+    "ionic-datepicker": "^1.2.1"
   }
 }

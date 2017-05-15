@@ -1,0 +1,27 @@
+<ion-view view-title="购买记录" ng-controller="selfOrderCtrl">
+  <ion-header-bar class="bar bar-light" align-title="center"><a ui-sref="app.self.index" class="button button-clear button-dark"><i class="ion-arrow-left-c"></i>返回</a></ion-header-bar>
+  <ion-content>
+    <ion-refresher
+                   pulling-text="下拉刷新..."
+                   on-refresh="doRefresh()">
+    </ion-refresher>
+    <div class="list padding">
+      <a class="item text-center" ng-if="!books || books.length == 0">
+        您暂时没有购买记录!
+      </a>
+      <a class="item item-thumbnail-left  card" ui-sref="app.bookstore.detail({id:item.booksId})"
+         collection-repeat="item in books"
+         collection-item-width="'95%'"
+      >
+        <img  ng-src="{{item.imgPath}}">
+        <h2>书名：{{item.bookName}}</h2>{{item.author}}
+        <p>下单时间：{{item.orderDate|date:'yyyy-MM-dd HH:mm:ss'}}</p>
+        <p>购买数量：{{item.orderChapters}}</p>
+        <p>金额：{{item.orderFee}}元</p>
+      </a>
+
+    </div>
+    <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadOrders()" distance="10%"></ion-infinite-scroll>
+  </ion-content>
+</ion-view>
+

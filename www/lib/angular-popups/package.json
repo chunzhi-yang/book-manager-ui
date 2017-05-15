@@ -1,0 +1,71 @@
+{
+  "name": "angular-popups",
+  "version": "0.0.2",
+  "description": "基于 AngularJS 的浮层组件",
+  "homepage": "https://github.com/aui/angular-popups",
+  "keywords": [
+    "angular",
+    "dialog",
+    "popup",
+    "bubble",
+    "notice",
+    "artDialog"
+  ],
+  "author": {
+    "name": "aui"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aui/angular-popups.git"
+  },
+  "main": "dist/angular-popups.js",
+  "scripts": {
+    "min": "webpack -p",
+    "test": "open test/index.html"
+  },
+  "devDependencies": {
+    "angular": "^1.4.8",
+    "css-loader": "^0.23.0",
+    "extract-text-webpack-plugin": "^0.9.1",
+    "jshint": "^2.8.0",
+    "jshint-loader": "^0.8.3",
+    "style-loader": "^0.13.0",
+    "webpack": "^1.12.15"
+  },
+  "license": "MIT",
+  "gitHead": "fe6dfdf90af25a531f019f6c3146893f8a18d5b1",
+  "bugs": {
+    "url": "https://github.com/aui/angular-popups/issues"
+  },
+  "_id": "angular-popups@0.0.2",
+  "_shasum": "85c04ecdb3d7839dd72f28b06d1bf828fcffebdd",
+  "_from": "angular-popups@latest",
+  "_npmVersion": "2.14.7",
+  "_nodeVersion": "4.2.3",
+  "_npmUser": {
+    "name": "aui",
+    "email": "1987.tangbin@gmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "aui",
+      "email": "1987.tangbin@gmail.com"
+    }
+  ],
+  "dist": {
+    "shasum": "85c04ecdb3d7839dd72f28b06d1bf828fcffebdd",
+    "size": 89132,
+    "noattachment": false,
+    "tarball": "http://registry.npm.taobao.org/angular-popups/download/angular-popups-0.0.2.tgz"
+  },
+  "_npmOperationalInternal": {
+    "host": "packages-16-east.internal.npmjs.com",
+    "tmp": "tmp/angular-popups-0.0.2.tgz_1460711307936_0.30180466873571277"
+  },
+  "directories": {},
+  "publish_time": 1460711311603,
+  "_cnpm_publish_time": 1460711311603,
+  "_hasShrinkwrap": false,
+  "_resolved": "http://registry.npm.taobao.org/angular-popups/download/angular-popups-0.0.2.tgz",
+  "readme": "ERROR: No README data found!"
+}

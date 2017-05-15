@@ -1,0 +1,57 @@
+<ion-nav-view title="书架" ng-controller="bookshelfViewCtrl"><ion-header-bar align-title="center"><a ui-sref="app.bookshelf.index" class="button button-clear button-balanced"><i class="ion-arrow-left-c"></i>返回</a></ion-header-bar><ion-content ng-style="{'background-color': backdrop}" padding="true"><ion-refresher ng-if="isLogined" pulling-text="下拉加载上一章节..." on-refresh="doRefresh()"></ion-refresher><div ng-click="operateModal()" ng-if="isLogined" ng-style="{
+      'font-family':'Verdana,Arial,Helvetica,sans-serif,Consolas',
+      'font-size': fontSize+'px',
+
+      'line-height': 2.0,
+      'padding': '30px 10px'}" jxb-bind-compiled-html="textContent"></div><ion-infinite-scroll ng-if="isLogined && !noMoreItemsAvailable" on-infinite="loadContentMore()" distance="10%"></ion-infinite-scroll><popup ng-if="loading" close="loading=false"><div class="item light-bg dark col-30">读取中...</div></popup><div class="energized-bg" ng-click="operateModal()" ng-if="!isLogined" ng-style="{
+      'font-family':'Verdana,Arial,Helvetica,sans-serif,Consolas',
+      'font-size': fontSize+'px',
+      'line-height': 2.0,
+      'background-color': backdrop,
+      'padding': '30px 10px'}">{{textContent}}<ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%"></ion-infinite-scroll></div></ion-content></ion-nav-view><script type="text/ng-template" id="operateMenu.html"><ion-modal-view >
+     <ion-content>
+       <ion-list>
+          <div class="item range full-image">
+            <a class="col-9 button button-light" ng-click="pre()"><i class="ion-arrow-left-c">
+              0%
+            </i>
+            </a>
+            <input type="range" name="process" ng-model="readProcess" ng-change="changeProcess(readProcess)" class="col-78">
+            <a class="col-9 button button-light" ng-click="next()">
+              <i class="ion-arrow-right-c">
+                100%
+              </i>
+            </a>
+          </div>
+
+          <div class="item">
+           <button class="button calm-bg  card  col-15" ng-click="changeStyle(0)"><span class="calm-bg "></span></button>
+            <button class="button balanced-bg card  col-15" ng-click="changeStyle(1)"><span class="balanced-bg"></span></button>
+            <button class="button energized-bg card  col-15" ng-click="changeStyle(2)"><span class="energized-bg"></span></button>
+            <button class="button dark-bg card  col-15" ng-click="changeStyle(3)"><span class="dark-bg"></span></button>
+            <button class="button light-bg card  col-15" ng-click="changeStyle(4)"><span class="light-bg"></span></button>
+
+          </div>
+         <div class="item">
+           <span class="col-20"><button class="button button-light col-offset-10" ng-click="smaller()">A<small>-</small></button><span style="line-height:47px">{{fontSize}}</span> <button class="button button-light" ng-click="larger()">A<small>+</small></button></span>
+           <span class="col-20"><button class="button button-light col-offset-10" ng-click="openChapters()">目录</button></span>
+         </div>
+       </ion-list>
+    </ion-content>
+    </ion-modal-view></script><script type="text/ng-template" id="chapterPage.html"><ion-modal-view>
+
+        <ion-content>
+          <ion-tabs class="tabs-top  card tabs-background-light">
+            <a class="tab-item col-50"><h5>.</h5>目录</a>
+            <ion-tab>
+
+                  <a class="item  item-borderless light-bg" ng-click="changeProcess($index)"
+                       collection-repeat="item in chapterList"
+                       item-width="'100%'"  item-height="40px">
+                      {{item.chapterName}}
+                  </a>
+
+            </ion-tab>
+          </ion-tabs>
+        </ion-content>
+  </ion-modal-view></script>
