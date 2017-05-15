@@ -2,11 +2,7 @@
 app.service('httpService',['$http','Config',function($http,configs){
 
     function getUrl(url){
-        if(url.startsWith('http')){
-            return url;
-        } else{
-            return configs.serverUrl+url;
-        }
+        return configs.serverUrl+url;
     }
 
     return{
@@ -49,10 +45,10 @@ app.service('httpService',['$http','Config',function($http,configs){
         var curUserReq =httpService.post( 'user/'+params.userName);
         curUserReq.success(function (data) {
 
-          if (data.imgPath != undefined && data.imgPath != '') {
-            data.imgPath = config.imgPrefix + data.imgPath;
+          if (!data.imgPath ){
+            data.imgPath = data.sex ==0?'img/thumbnail-male.png':'img/thumbnail-female.png';
           }else{
-            data.imgPath = 'img/thumbnail-'+data.sex ==0?'male.png':'female.png';
+            data.imgPath = config.imgPrefix + data.imgPath;
           }
           curUser = data;
           isLogined = true;
@@ -62,17 +58,14 @@ app.service('httpService',['$http','Config',function($http,configs){
 
       }else{
         Popup.alert(d.data.message,function(){
-
         });
-
       }
     });
-
   }
   this.doLogout = function(){
     isLogined = false;
+    curUser = {};
     httpService.post('login/logout').success(function(d){
-      ionic.Platform.exitApp();
       $state.go('login.signin');
     });
   }
@@ -82,9 +75,11 @@ app.service('httpService',['$http','Config',function($http,configs){
   }
 
   this.getCurUser =function (){
+    console.log(curUser);
     return curUser;
   }
   this.setCurUser =function (user){
+    curUser={};
     curUser = user;
   }
 

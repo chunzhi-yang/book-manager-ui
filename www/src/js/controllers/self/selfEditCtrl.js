@@ -48,8 +48,14 @@ app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateP
     var loadUser = function(){
       var curUserReq =  httpService.post( 'user/'+ $stateParams.account);
 
-      curUserReq.then(function (data) {
-        curUserService.setCurUser(data.data);
+      curUserReq.success(function (data) {
+        if(data.imgPath) {
+          data.imgPath = configs.imgPrefix + data.imgPath;
+        }else{
+          data.imgPath = data.sex ==0?'img/thumbnail-male.png':'img/thumbnail-female.png';
+        }
+        console.log(data);
+        curUserService.setCurUser(data);
        $state.go('app.self.index');
       },function(error){
         console.log("下载头像失败:"+error);
@@ -57,7 +63,9 @@ app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateP
     }
     $scope.upload = function () {
       if(!$scope.file){
-        httpService.put('user/update',$scope.userInfo).success(function(d){
+        var param = $scope.userInfo;
+        delete param.imgPath;
+        httpService.put('user/update',param).success(function(d){
           loadUser();
         });
         return;
@@ -76,7 +84,7 @@ app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateP
           console.log("上传失败");
       }).success(function (data, status, headers, config) {
 
-        $scope.userInfo.imgPath = configs.imgPrefix +data;
+        $scope.userInfo.imgPath = data;
         httpService.put('user/update',$scope.userInfo).success(function(d){
           loadUser();
 

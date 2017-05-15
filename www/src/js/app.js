@@ -6,12 +6,12 @@
 // 'starter.controllers' is found in controllers.js
 var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-popups','ionic-datepicker','ngDialog'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform,$location,$rootScope) {
 
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
-    if (window.cordova  &&  window.cordova.plugins.Keyboard) {
+    if (window.cordova&&  window.cordova.plugins  &&  window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
     }
@@ -21,6 +21,34 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
       StatusBar.styleDefault();
     }
   });
+  $ionicPlatform.registerBackButtonAction(function(e) {
+    //判断处于哪个页面时双击退出
+    if ($location.path() == '/app/bookstore/index' || $location.path() == '/app/self/index' || $location.path() == '/app/bookshelf/index') {
+      if ($rootScope.backButtonPressedOnceToExit) {
+        ionic.Platform.exitApp();
+      } else {
+        $rootScope.backButtonPressedOnceToExit = true;
+        $cordovaToast.showShortBottom('再按一次退出系统');
+        setTimeout(function() {
+          $rootScope.backButtonPressedOnceToExit = false;
+        }, 2000);
+      }
+    } else if ($ionicHistory.backView()) {
+      if ($cordovaKeyboard.isVisible()) {
+        $cordovaKeyboard.close();
+      } else {
+        $ionicHistory.goBack();
+      }
+    } else {
+      $rootScope.backButtonPressedOnceToExit = true;
+      $cordovaToast.showShortBottom('再按一次退出系统');
+      setTimeout(function() {
+        $rootScope.backButtonPressedOnceToExit = false;
+      }, 2000);
+    }
+    e.preventDefault();
+    return false;
+  }, 101);
 })
 
 .config(['$stateProvider', '$urlRouterProvider','$ionicConfigProvider','$httpProvider',function($stateProvider, $urlRouterProvider,$ionicConfigProvider,$httpProvider) {
