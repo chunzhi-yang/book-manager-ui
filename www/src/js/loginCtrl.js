@@ -2,35 +2,30 @@
 app.controller('loginCtrl',['httpService','$scope','$location','curUserService','Popup',
 	function(httpService,$scope,$location,curUserService,Popup){
 	$scope.doCreate = function(){
+		 httpService.get('login/getRSAPublicKey').success(function(data){
+				$scope.publicKeyExponent = data.data.publicKeyExponent;
+				$scope.publicKeyModulus = data.data.publicKeyModulus;
+				var param = {};
+				param['userName'] = $scope.regist.userName;
+				param['password'] = encrypt($scope.regist.userPassword);
+				httpService.post('login/signup',param).success(function(r){
+			      console.log(r);
+						if(r.data.success){
+					        Popup.alert("注册成功!",function(){
+					            $location.url('login/signin');
+					        });
 
-		var param = {};
-		param['userName'] = $scope.regist.userName;
-		param['password'] = encrypt($scope.regist.userPassword);
-		httpService.post('login/signup',param).then(function(r){
-      console.log(r);
-			if(r.data.success){
-        Popup.alert("注册成功!",function(){
-            $location.url('login/signin');
-        });
+						}else{
+			        	Popup.alert(r.data.message,function(){
 
-			}else{
-        Popup.alert(r.data.message,function(){
+				        });
+				      }
 
-        });
-      }
-
-		},function(e){
-			console.log(e);
-		});
+				});  
+			});
+		
 	}
-	var p = httpService.get('login/getRSAPublicKey');
-
-	p.then(function(data){
-		$scope.publicKeyExponent = data.data.publicKeyExponent;
-		$scope.publicKeyModulus = data.data.publicKeyModulus;
-	},function(e){
-
-	});
+	
 
 	var encrypt = function(pwd){
 		RSAUtils.setMaxDigits(200);
@@ -40,10 +35,16 @@ app.controller('loginCtrl',['httpService','$scope','$location','curUserService',
 		return encryptedPwd;
 	}
 	$scope.doLogin = function(){
-	  var flag = $scope.login.rememberMe ?$scope.login.rememberMe:false;
-		var param = {userName:$scope.login.userName,rememberMe: flag};
-		param.password = encrypt($scope.login.userPassword);
-    curUserService.doLogin(param);
+		httpService.get('login/getRSAPublicKey')
+		.success(function(data){
+				$scope.publicKeyExponent = data.publicKeyExponent;
+				$scope.publicKeyModulus = data.publicKeyModulus;
+				 var flag = $scope.login.rememberMe ?$scope.login.rememberMe:false;
+				var param = {userName:$scope.login.userName,rememberMe: flag};
+				param.password = encrypt($scope.login.userPassword);
+		    	curUserService.doLogin(param);
+		});
+	 
 	}
 	$scope.changePassword = function(){
 

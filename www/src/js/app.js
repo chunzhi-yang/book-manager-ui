@@ -6,7 +6,7 @@
 // 'starter.controllers' is found in controllers.js
 var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-popups','ionic-datepicker','ngDialog'])
 
-.run(function($ionicPlatform,$location,$rootScope) {
+.run(function($ionicPlatform,$location,$rootScope,$cordovaToast) {
 
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -16,8 +16,7 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
       cordova.plugins.Keyboard.disableScroll(true);
     }
 
-    if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
+    if (window.StatusBar) { 
       StatusBar.styleDefault();
     }
   });
@@ -88,7 +87,7 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
     url: '/changepassword/:account',
     templateUrl: 'views/login_changepassword.html',
     controller: 'navsCtrl'
-  })
+  })  
   .state('app', {
     url: '/app',
     abstract: true,
@@ -181,18 +180,19 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
       });
 
   $urlRouterProvider.otherwise('/app/bookshelf/index');
-}]).factory('myHttpInterceptor',['$q', '$injector',function($q, $injector){
+}]).config(['PopupProvider','$httpProvider',function (PopupProvider,$httpProvider) {
+  PopupProvider.title = '提示';
+  PopupProvider.okValue = '确定';
+  PopupProvider.cancelValue = '取消';
+  $httpProvider.defaults.withCredentials = true;
+  $httpProvider.interceptors.push(
+    ['$q', '$injector',function($q, $injector){
     return {
-        request: function (config) {
-            //TODO 带上未知属性会产生一个options请求问题
+        request: function (config) { 
             var requestUrl = config.url;
-            var $location = $injector.get('$location');
-
-
+            var $location = $injector.get('$location'); 
             var absUrl = $location.absUrl();
-            //  config.headers['X-Access-Url'] = absUrl;
-            //  config.headers['Cookie'] = 'JSESSIONID=901A45116F7EFC0253F6F30CE023A740';
-
+            
             return config;
         },
         requestError: function(rejection) {
@@ -215,7 +215,7 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
 
                     }catch(e){}
                 }else{
-                    $state.go('error.500');
+                     popup('系统错误','系统出錯了',function(){});
                 }
             }else if(rejection.status === 404){
                 try{
@@ -229,8 +229,4 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
         }
     };
 }]);
-app.config(function (PopupProvider) {
-  PopupProvider.title = '提示';
-  PopupProvider.okValue = '确定';
-  PopupProvider.cancelValue = '取消';
-});
+}]);
