@@ -2,11 +2,7 @@
 app.service('httpService',['$http','Config',function($http,configs){
 
     function getUrl(url){
-        if(url.startsWith('http')){
-            return url;
-        } else{
-            return configs.serverUrl+url;
-        }
+        return configs.serverUrl+url;
     }
 
     return{
@@ -49,10 +45,8 @@ app.service('httpService',['$http','Config',function($http,configs){
         var curUserReq =httpService.post( 'user/'+params.userName);
         curUserReq.success(function (data) {
 
-          if (data.imgPath != undefined && data.imgPath != '') {
-            data.imgPath = config.imgPrefix + data.imgPath;
-          }else{
-            data.imgPath = 'img/thumbnail-'+data.sex ==0?'male.png':'female.png';
+          if (!data.imgPath ){
+            data.imgPath = data.sex ==0?'img/thumbnail-male.png':'img/thumbnail-female.png';
           }
           curUser = data;
           isLogined = true;
@@ -62,29 +56,24 @@ app.service('httpService',['$http','Config',function($http,configs){
 
       }else{
         Popup.alert(d.data.message,function(){
-
         });
-
       }
     });
-
   }
   this.doLogout = function(){
     isLogined = false;
+    curUser = {};
     httpService.post('login/logout').success(function(d){
-      ionic.Platform.exitApp();
       $state.go('login.signin');
     });
   }
 
-  this.test = function(){
-    curUser = {usersId: 2, uid: "20170425231430000", userName: "chunzhi123", sex: 0,birth: new Date('1992-12-27 18:00:50')};
-  }
 
   this.getCurUser =function (){
     return curUser;
   }
   this.setCurUser =function (user){
+    curUser={};
     curUser = user;
   }
 

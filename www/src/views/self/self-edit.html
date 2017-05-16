@@ -12,7 +12,7 @@
           <span class="input-label"> 头像 <i class="icon ion-information-circled assertive"></i></span>
           <button class="item item-avatar-right item-borderless"  ngf-select ng-model="file"
                   ngf-validate="{size: {min:'10KB', max:'1MB'}}" ng-change="loadFile(file)" ngf-pattern="image/*">
-            <img ngf-src="file || userInfo.imgPath">
+            <img ngf-src="file || userInfo.imgPath" >
           </button>
         </label>
         <label class="item item-input">
@@ -25,7 +25,7 @@
         </label>
         <label class="item item-input">
           <span class="input-label">生日  </span>
-            <input type="text" name="birth" ng-click="openDatePicker()" ng-model="userInfo.birth"/>
+            <input type="text" name="birth" ng-click="openDatePicker()" ng-model="userInfo.birthTxt"/>
 
         </label>
 

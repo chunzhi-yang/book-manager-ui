@@ -1,6 +1,6 @@
 app.controller('selfDiskCtrl', ['$scope','httpService','curUserService','Config','Upload','$timeout',
   function($scope, httpService,curUserService,configs,Upload,$timeout) {
-    curUserService.test();
+
   var user = curUserService.getCurUser();
   $scope.books = [];
   $scope.isLogined = true;

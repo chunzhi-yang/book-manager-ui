@@ -11,8 +11,8 @@
     <script>
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('service-worker.js')
-          .then(() => console.log('service worker installed'))
-          .catch(err => console.log('Error', err));
+          .then(function(){console.log('service worker installed');})
+          .catch(function(e){ console.log('Error', err);});
       }
     </script>
 
@@ -24,7 +24,6 @@
     <link rel="stylesheet" href="lib/ng-dialog/css/ngDialog-theme-default.min.css">
     <link href="css/login/login.css" rel="stylesheet">
     <link href="css/bookstore/bookstore.css" rel="stylesheet">
-    <link href="lib/ionic-datepicker/dist/style.css" rel="stylesheet">
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.min.js"></script>

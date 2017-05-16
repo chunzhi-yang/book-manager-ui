@@ -41,13 +41,15 @@
     <ion-content>
       <ion-list>
 
-        <ion-item menu-close href="#/login/self/account">
+        <ion-item menu-close ng-href="#/login/self/account">
           我的账户
         </ion-item>
-        <ion-item menu-close ng-click="logout()">
+        <ion-item menu-close ng-if="isLogined" ng-click="logout()">
           退出登录
         </ion-item>
-
+        <ion-item menu-close ng-if="!isLogined" ui-sref="login.signin">
+          登录
+        </ion-item>
       </ion-list>
     </ion-content>
   </ion-side-menu>
