@@ -6,7 +6,7 @@
 // 'starter.controllers' is found in controllers.js
 var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-popups','ionic-datepicker','ngDialog'])
 
-.run(function($ionicPlatform,$location,$rootScope,$cordovaToast) {
+.run(function($ionicPlatform,$location,$rootScope,$ionicHistory,$timeout,$cordovaToast) {
 
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -32,12 +32,8 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
           $rootScope.backButtonPressedOnceToExit = false;
         }, 2000);
       }
-    } else if ($ionicHistory.backView()) {
-      if ($cordovaKeyboard.isVisible()) {
-        $cordovaKeyboard.close();
-      } else {
-        $ionicHistory.goBack();
-      }
+    } else if ($ionicHistory.backView()) {      
+        $ionicHistory.goBack();       
     } else {
       $rootScope.backButtonPressedOnceToExit = true;
       $cordovaToast.showShortBottom('再按一次退出系统');
@@ -211,19 +207,21 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
                 var data=rejection.data;
                 if(data.error){
                     try{
-                      popup("系统错误",function(){});
+                      popup.alert("系统错误",function(){});
 
                     }catch(e){}
                 }else{
-                     popup('系统错误','系统出錯了',function(){});
+                     popup.alert('系统错误','系统出錯了',function(){});
                 }
             }else if(rejection.status === 404){
                 try{
-                  popup('页面不存在','您要访问的页面不存在',function(){});
+                  popup.alert('页面不存在','您要访问的页面不存在',function(){});
 
                 }catch(e){}
             }else{
-               $state.go('login.signin');
+               popup.alert('您还没有登录，请先登录',function(){
+                 $state.go('login.signin');                
+              });
            }
             return $q.reject(rejection);
         }
