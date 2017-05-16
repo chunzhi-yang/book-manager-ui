@@ -10,13 +10,13 @@ app.controller('loginCtrl',['httpService','$scope','$location','curUserService',
 				param['password'] = encrypt($scope.regist.userPassword);
 				httpService.post('login/signup',param).success(function(r){
 			      console.log(r);
-						if(r.data.success){
+						if(r.success){
 					        Popup.alert("注册成功!",function(){
 					            $location.url('login/signin');
 					        });
 
 						}else{
-			        	Popup.alert(r.data.message,function(){
+			        	Popup.alert(r.message,function(){
 
 				        });
 				      }
