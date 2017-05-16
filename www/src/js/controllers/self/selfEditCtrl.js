@@ -40,24 +40,17 @@ app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateP
       ionicDatePicker.openDatePicker(dlg);
     }
 
-
-
-
     $scope.loadFile = function(file){
         $scope.file = file;
     }
     var loadUser = function(){
-      var curUserReq =  httpService.post( 'user/'+ $stateParams.account);
-
-      curUserReq.success(function (data) {
+      httpService.post( 'user/'+ $stateParams.account)
+      .success(function (data) {
         if(!data.imgPath) {
           data.imgPath = data.sex ==0?'img/thumbnail-male.png':'img/thumbnail-female.png';
         }
-
         curUserService.setCurUser(data);
        $state.go('app.self.index');
-      },function(error){
-        console.log("下载头像失败:"+error);
       });
     }
     $scope.upload = function () {

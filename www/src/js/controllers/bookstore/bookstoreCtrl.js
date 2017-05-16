@@ -1,10 +1,7 @@
 app.controller('bookstoreCtrl',['$scope','httpService','$timeout','Config', function($scope, httpService,$timeout,config) {
 	var page = 1,loading=false;
 
-   $scope.search = function(){
-    		page = 1;
-      $scope.loadBooks();
-    }
+ 
     $scope.changeType = function(type){
         $scope.book.type = type;
         $scope.search();
@@ -40,6 +37,10 @@ app.controller('bookstoreCtrl',['$scope','httpService','$timeout','Config', func
     		loading = false;
         $scope.$broadcast('scroll.infiniteScrollComplete');
     	});
+    }
+      $scope.search = function(){
+        page = 1;
+      $scope.loadBooks();
     }
     $scope.books=[];
   $scope.book={type:0};

@@ -3,8 +3,8 @@ app.controller('loginCtrl',['httpService','$scope','$location','curUserService',
 	function(httpService,$scope,$location,curUserService,Popup){
 	$scope.doCreate = function(){
 		 httpService.get('login/getRSAPublicKey').success(function(data){
-				$scope.publicKeyExponent = data.data.publicKeyExponent;
-				$scope.publicKeyModulus = data.data.publicKeyModulus;
+				$scope.publicKeyExponent = data.publicKeyExponent;
+				$scope.publicKeyModulus = data.publicKeyModulus;
 				var param = {};
 				param['userName'] = $scope.regist.userName;
 				param['password'] = encrypt($scope.regist.userPassword);
