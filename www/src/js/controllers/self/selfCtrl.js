@@ -1,4 +1,4 @@
-app.controller('selfCtrl', ['$scope','curUserService','$timeout',function($scope,curUserService,$timeout) {
+app.controller('selfCtrl', ['$scope','curUserService','$timeout','$ionicBackdrop',function($scope,curUserService,$timeout,$ionicBackdrop) {
    $scope.user = curUserService.getCurUser();
    $timeout(function(){
      $scope.user = curUserService.getCurUser();
@@ -8,5 +8,4 @@ app.controller('selfCtrl', ['$scope','curUserService','$timeout',function($scope
     $scope.darkTheme = t;
     curUserService.setDarkTheme(t);
   }
-
 }]);

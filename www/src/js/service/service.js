@@ -16,7 +16,7 @@ app.service('httpService',['$http','Config',function($http,configs){
         },
         put:function(url, param){
             url=getUrl(url);
-            return $http.post(url, JSON.stringify(param), {headers: {'Content-Type': 'application/json'}});
+            return $http.put(url, JSON.stringify(param), {headers: {'Content-Type': 'application/json'}});
         },
         'delete':function(url){
             url=getUrl(url);

@@ -57,13 +57,13 @@ app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateP
       if(!$scope.file){
         var param = $scope.userInfo;
         delete param.imgPath;
-        httpService.put('user/update',param).success(function(d){
+        httpService.post('user/update',param).success(function(d){
           loadUser();
         });
         return;
       }
       Upload.upload({
-        url: configs.serverUrl+'/user/upload',
+        url: configs.serverUrl+'user/upload',
         data: {account:$scope.userInfo.userName},
         file: $scope.file,
 
@@ -77,7 +77,7 @@ app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateP
       }).success(function (data, status, headers, config) {
 
         $scope.userInfo.imgPath = configs.imgPrefix +data;
-        httpService.put('user/update',$scope.userInfo).success(function(d){
+        httpService.post('user/update',$scope.userInfo).success(function(d){
           loadUser();
 
         })

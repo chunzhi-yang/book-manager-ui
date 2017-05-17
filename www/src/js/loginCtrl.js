@@ -26,7 +26,28 @@ app.controller('loginCtrl',['httpService','$scope','$location','curUserService',
 		
 	}
 	
+$scope.doChange = function(){
+		 httpService.get('login/getRSAPublicKey').success(function(data){
+				$scope.publicKeyExponent = data.publicKeyExponent;
+				$scope.publicKeyModulus = data.publicKeyModulus;
+				var param = {}; 
+				param['oldPassword'] = encrypt($scope.regist.oldPassword);
+				param['newPassword'] = encrypt($scope.regist.newPassword);
+				httpService.post('user/updatePassword',param).success(function(r){
+			      console.log(r);
+						if(r.success){					        
+					       $location.url('login/signin');					         
 
+						}else{
+				        	Popup.alert(r.message,function(){
+
+					        });
+				      }
+
+				});  
+			});
+		
+	}
 	var encrypt = function(pwd){
 		RSAUtils.setMaxDigits(200);
 		var key = new RSAUtils.getKeyPair($scope.publicKeyExponent,"",$scope.publicKeyModulus);

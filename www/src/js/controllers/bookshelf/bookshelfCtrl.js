@@ -65,7 +65,7 @@ app.controller('bookshelfCtrl',['$scope','httpService','curUserService','localSt
      function doUpload(files){
        if (files && files.length) {
          Upload.upload({
-           url: configs.serverUrl+'/bookShelf/upload',
+           url: configs.serverUrl+'bookShelf/upload',
            data: {
              files: files,
              uid: '-1'
@@ -93,7 +93,7 @@ app.controller('bookshelfCtrl',['$scope','httpService','curUserService','localSt
         });
         var page = {data:params};
 
-        httpService.put('bookShelf/createBatch',page).success(function(d){
+        httpService.post('bookShelf/createBatch',page).success(function(d){
           if(d > 0){
             Popup.alert('导入成功!');
             loadByUid(curUser.uid);
