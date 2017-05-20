@@ -23,20 +23,8 @@ app.service('httpService',['$http','Config',function($http,configs){
             return $http['delete'](url, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
         },
     }
-}]).service('curUserService',['httpService','Config','$state','Popup',function(httpService,config,$state,Popup){
-  var curUser = {};
-  var rememberMe = false;
-  var isLogined = false;
-  var darkTheme = false;
-  this.getIsLogined = function(){
-    return isLogined;
-  }
-  this.setDarkTheme = function(t){
-    darkTheme = t;
-  }
-  this.getDarkTheme = function(){
-    return darkTheme;
-  }
+}]).service('curUserService',['httpService','Config','$rootScope','$state','Popup',function(httpService,config,$rootScope,$state,Popup){
+
   this.doLogin = function(params){
     var promise =httpService.post( '/login/signin', params);
     promise.then(function (d) {
@@ -48,9 +36,9 @@ app.service('httpService',['$http','Config',function($http,configs){
           if (!data.imgPath ){
             data.imgPath = data.sex ==0?'img/thumbnail-male.png':'img/thumbnail-female.png';
           }
-          curUser = data;
-          isLogined = true;
-          rememberMe = params.rememberMe;
+          $rootScope.curUser = data;
+          $rootScope.isLogined = true;
+          $rootScope.rememberMe = params.rememberMe;
           $state.go("app.self.index");
         });
 
@@ -61,25 +49,13 @@ app.service('httpService',['$http','Config',function($http,configs){
     });
   }
   this.doLogout = function(){
-    isLogined = false;
-    curUser = {};
+    $rootScope.isLogined = false;
+    $rootScope.curUser = {};
     httpService.post('login/logout').success(function(d){
       $state.go('login.signin');
     });
   }
 
-
-  this.getCurUser =function (){
-    return curUser;
-  }
-  this.setCurUser =function (user){
-    curUser={};
-    curUser = user;
-  }
-
-  this.getRemeberMe = function (){
-    return rememberMe;
-  }
 }]).service('fileTransferHelper',['curUserService',function(curUserService){
   var param={};
   this.setter = function(p){

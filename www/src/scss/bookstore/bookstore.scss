@@ -18,10 +18,13 @@
   overflow: hidden;
 }
 .ngdialog, .ngdialog-overlay{
-  top: 20%;
+  top: 6%;
 }
+  
 .ngdialog.ngdialog-theme-default .ngdialog-content{
-  min-height: 300px;
+  min-height: 100px;
   padding: 0;
-  margin-top: 100px;
-}
+  position: fixed;
+  bottom: 0;
+  right: 0;
+} 

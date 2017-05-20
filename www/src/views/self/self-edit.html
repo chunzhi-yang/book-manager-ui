@@ -12,7 +12,7 @@
           <span class="input-label"> 头像 <i class="icon ion-information-circled assertive"></i></span>
           <button class="item item-avatar-right item-borderless"  ngf-select ng-model="file"
                   ngf-validate="{size: {min:'10KB', max:'1MB'}}" ng-change="loadFile(file)" ngf-pattern="image/*">
-            <img ngf-src="file || userInfo.imgPath" >
+            <img ngf-src="file || curUser.imgPath" >
           </button>
         </label>
         <label class="item item-input">
@@ -31,9 +31,9 @@
 
         <label class="item item-input">
           <span class="input-label"> 手机 <i class="icon ion-information-circled assertive"></i></span>
-          <input type="number" name="mobile" ng-model="userInfo.mobile" required ng-maxlength="20">
+          <input type="number" name="mobile" string-to-number ng-model="userInfo.mobile" required ng-maxlength="20">
         </label>
-        <span ng-show="_userInfo.mobile.$error || _userInfo.mobile.$dirty" ng-hide="_userInfo.mobile.$valid || _userInfo.mobile.$pristine" ng-messages="_userInfo.mobile.$dirty&&_userInfo.mobile.$error" style="color:maroon" class="item" role="alert">
+        <span ng-show="_userInfo.mobile.$error" ng-hide="_userInfo.mobile.$valid || _userInfo.mobile.$pristine" ng-messages="_userInfo.mobile.$dirty&&_userInfo.mobile.$error" style="color:maroon" class="item" role="alert">
                 <div ng-message="required" class="font-small">请输入手机号</div>
                 <div ng-message="maxlength" class="font-small">手机不能超过20位</div>
            </span>

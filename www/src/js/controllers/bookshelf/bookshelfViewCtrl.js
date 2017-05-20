@@ -1,10 +1,10 @@
 app.controller('bookshelfViewCtrl',['$window','$scope','httpService','ngDialog','fileTransferHelper',
-  'curUserService','Config','$stateParams',
-	function($window,$scope, httpService,ngDialog,fileTransferHelper,curUserService,config,$stateParams) {
+  '$rootScope','Config','$stateParams',
+	function($window,$scope, httpService,ngDialog,fileTransferHelper,$rootScope,config,$stateParams) {
 
     $scope.fontSize = '12';
     $scope.chapterIndex = 0;
-    var isLogined = curUserService.getIsLogined(),
+    var isLogined = $rootScope.isLogined,
       colors = ['#11c1f3','#33cd5f','#ffc900','#444444','#f8f8f8'],
       sliceIndex=1;
     $scope.isLogined = isLogined;

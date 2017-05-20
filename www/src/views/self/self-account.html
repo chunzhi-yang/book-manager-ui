@@ -12,7 +12,7 @@
           <ion-item>余额：{{account.remain}}元</ion-item>
          <ion-item>更新时间：{{account.updatedTime|date:'yyyy-MM-dd'}}</ion-item>
          <ion-item class="text-center"><a class="button button-balanced col-40" ng-click="openModal()">充值</a>
-           <a class="button button-dark button col-offset-10 col-50"ng-href="#login/self/accountlog/{{usingUid}}">查看记录</a>
+           <a class="button button-dark button col-offset-10 col-50"ng-href="#login/self/accountlog/{{curUser.uid}}">查看记录</a>
          </ion-item>
        </ion-list>
   </ion-content>

@@ -1,10 +1,10 @@
-app.controller('bookshelfCtrl',['$scope','httpService','curUserService','localStorage','Upload','$timeout','Popup','fileTransferHelper','$state','Config',
-	function($scope, httpService,curUserService,localStorage,Upload,$timeout,Popup,fileTransferHelper,$state,configs) {
+app.controller('bookshelfCtrl',['$scope','httpService','$rootScope','localStorage','Upload','$timeout','Popup','fileTransferHelper','$state','Config',
+	function($scope, httpService,$rootScope,localStorage,Upload,$timeout,Popup,fileTransferHelper,$state,configs) {
 
-    var curUser = curUserService.getCurUser(),page=1;
+    var curUser = $rootScope.curUser,page=1;
      $scope.books = [];
     $scope.noMoreItemsAvailable = false;
-    $scope.isLogined = curUserService.getIsLogined();
+    $scope.isLogined = $rootScope.isLogined;
     $scope.files=[];
 
     $scope.viewBook = function(i,eve) {
@@ -92,15 +92,14 @@ app.controller('bookshelfCtrl',['$scope','httpService','curUserService','localSt
           params.push(bookShelf);
         });
         var page = {data:params};
-
-        httpService.post('bookShelf/createBatch',page).success(function(d){
+   
+        httpService.put('bookShelf/createBatch',page).success(function(d){
           if(d > 0){
             Popup.alert('导入成功!');
             loadByUid(curUser.uid);
           }
         });
     }
-
 
     loadFromLocalStorage();
 }]);

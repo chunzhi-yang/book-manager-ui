@@ -11,7 +11,7 @@
              <div class="list">
                 <label class="item item-input">
                     <span class="input-label">账号</span>
-                    <input type="text" name="userName" placeholder="账号/邮箱" ng-model="login.userName" ng-maxlength="50" required>
+                    <input type="text" name="userName" placeholder="账号" ng-model="login.userName" ng-maxlength="50" required>
 
                 </label>
                   <span ng-show="loginForm.userName.$error" ng-hide="loginForm.userName.$pristine||loginForm.userName.$valid"ng-messages="loginForm.userName.$dirty&&loginForm.userName.$error" style="color:maroon" class="item" role="alert">

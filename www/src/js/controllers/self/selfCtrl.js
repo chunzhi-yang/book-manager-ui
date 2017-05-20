@@ -1,11 +1,8 @@
-app.controller('selfCtrl', ['$scope','curUserService','$timeout','$ionicBackdrop',function($scope,curUserService,$timeout,$ionicBackdrop) {
-   $scope.user = curUserService.getCurUser();
-   $timeout(function(){
-     $scope.user = curUserService.getCurUser();
-   },500);
-  $scope.darkTheme = curUserService.getDarkTheme();
+app.controller('selfCtrl', ['$scope','$rootScope','$timeout',function($scope,$rootScope,$timeout) {
+
+
   $scope.loadTheme = function(t){
-    $scope.darkTheme = t;
-    curUserService.setDarkTheme(t);
+    $rootScope.darkTheme = t;
+
   }
 }]);

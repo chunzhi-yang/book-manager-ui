@@ -2,9 +2,9 @@
   <ion-header-bar class="bar bar-assertive" align-title="center">个人中心</ion-header-bar>
   <ion-content>
    	  	<ion-list>
-            <a ng-href="#/login/self/edit/{{user.userName}}" class="item item-avatar-right">
+            <a ng-href="#/login/self/edit/{{curUser.userName}}" class="item item-avatar-right">
                 个人资料
-              <img ng-src="{{user.imgPath}}">
+              <img ng-src="{{curUser.imgPath}}">
             </a>
           <div class="item item-divider light-bg"></div>
           <a ng-href="#/login/self/disk" class=" item ">

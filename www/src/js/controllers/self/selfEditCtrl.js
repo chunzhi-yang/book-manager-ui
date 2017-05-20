@@ -1,9 +1,9 @@
-app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateParams','ionicDatePicker','curUserService','Config',
-  function($scope,Upload,httpService,$state,$stateParams,ionicDatePicker,curUserService,configs) {
-    $scope.userInfo = curUserService.getCurUser();
+app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateParams','ionicDatePicker','$rootScope','Config',
+  function($scope,Upload,httpService,$state,$stateParams,ionicDatePicker,$rootScope,configs) {
+    $scope.userInfo = $rootScope.curUser;
     $scope.userInfo.birthTxt = moment( $scope.userInfo.birth).format('YYYY-MM-DD');
     $scope.items=["男","女"];
-
+    console.log( $scope.userInfo);
     $scope.submitForm = function(){
       $scope.upload();
 
@@ -49,15 +49,15 @@ app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateP
         if(!data.imgPath) {
           data.imgPath = data.sex ==0?'img/thumbnail-male.png':'img/thumbnail-female.png';
         }
-        curUserService.setCurUser(data);
-       $state.go('app.self.index');
+        $rootScope.curUser = data;
+        $state.go('app.self.index');
       });
     }
     $scope.upload = function () {
       if(!$scope.file){
         var param = $scope.userInfo;
         delete param.imgPath;
-        httpService.post('user/update',param).success(function(d){
+        httpService.put('user/update',param).success(function(d){
           loadUser();
         });
         return;
@@ -84,4 +84,16 @@ app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateP
         console.log('文件'+config.file.name+'上传成功');
       });
     }
-  }]);
+  }]).directive('stringToNumber', function() {
+  return {
+    require: 'ngModel',
+    link: function(scope, element, attrs, ngModel) {
+      ngModel.$parsers.push(function(value) {
+        return '' + value;
+      });
+      ngModel.$formatters.push(function(value) {
+        return parseFloat(value);
+      });
+    }
+  };
+});

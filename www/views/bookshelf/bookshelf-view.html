@@ -1,4 +1,4 @@
-<ion-nav-view title="书架" ng-controller="bookshelfViewCtrl"><ion-header-bar align-title="center"><a ui-sref="app.bookshelf.index" class="button button-clear button-balanced"><i class="ion-arrow-left-c"></i>返回</a></ion-header-bar><ion-content ng-style="{'background-color': backdrop}" padding="true"><ion-refresher ng-if="isLogined" pulling-text="下拉加载上一章节..." on-refresh="doRefresh()"></ion-refresher><div ng-click="operateModal()" ng-if="isLogined" ng-style="{
+<ion-nav-view title="书架" ng-controller="bookshelfViewCtrl"><ion-header-bar align-title="center"><a ui-sref="app.bookshelf.index" class="button button-clear button-balanced"><i class="ion-arrow-left-c"></i>返回</a></ion-header-bar><ion-content padding="true"><ion-refresher ng-if="isLogined" pulling-text="下拉加载上一章节..." on-refresh="doRefresh()"></ion-refresher><div ng-click="operateModal()" ng-if="isLogined" ng-style="{
       'font-family':'Verdana,Arial,Helvetica,sans-serif,Consolas',
       'font-size': fontSize+'px',
 

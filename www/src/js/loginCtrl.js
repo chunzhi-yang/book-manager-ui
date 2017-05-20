@@ -1,6 +1,10 @@
 'use strict';
-app.controller('loginCtrl',['httpService','$scope','$location','curUserService','Popup',
-	function(httpService,$scope,$location,curUserService,Popup){
+app.controller('loginCtrl',['$rootScope','httpService','$scope','$location','curUserService','Popup',
+	function($rootScope,httpService,$scope,$location,curUserService,Popup){
+	  $rootScope.curUser = {};
+	  $rootScope.rememberMe = false;
+	  $rootScope.isLogined = false;
+	  $rootScope.darkTheme = false;
 	$scope.doCreate = function(){
 		 httpService.get('login/getRSAPublicKey').success(function(data){
 				$scope.publicKeyExponent = data.publicKeyExponent;
@@ -21,22 +25,23 @@ app.controller('loginCtrl',['httpService','$scope','$location','curUserService',
 				        });
 				      }
 
-				});  
+				});
 			});
-		
+
 	}
-	
-$scope.doChange = function(){
+
+$scope.submitChange = function(){
+	console.log($scope.register);
 		 httpService.get('login/getRSAPublicKey').success(function(data){
 				$scope.publicKeyExponent = data.publicKeyExponent;
 				$scope.publicKeyModulus = data.publicKeyModulus;
-				var param = {}; 
-				param['oldPassword'] = encrypt($scope.regist.oldPassword);
-				param['newPassword'] = encrypt($scope.regist.newPassword);
+				var param = {};
+				param['oldPassword'] = encrypt($scope.register.oldPassword);
+				param['newPassword'] = encrypt($scope.register.newPassword);
 				httpService.post('user/updatePassword',param).success(function(r){
 			      console.log(r);
-						if(r.success){					        
-					       $location.url('login/signin');					         
+						if(r.success){
+					       $location.url('login/signin');
 
 						}else{
 				        	Popup.alert(r.message,function(){
@@ -44,9 +49,9 @@ $scope.doChange = function(){
 					        });
 				      }
 
-				});  
+				});
 			});
-		
+
 	}
 	var encrypt = function(pwd){
 		RSAUtils.setMaxDigits(200);
@@ -65,7 +70,7 @@ $scope.doChange = function(){
 				param.password = encrypt($scope.login.userPassword);
 		    	curUserService.doLogin(param);
 		});
-	 
+
 	}
 	$scope.changePassword = function(){
 
