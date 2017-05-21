@@ -1,4 +1,5 @@
 'use strict';
+//登录注册请求处理
 app.controller('loginCtrl',['httpService','$scope','$location','curUserService','Popup',
 	function(httpService,$scope,$location,curUserService,Popup){
 	$scope.doCreate = function(){
@@ -21,11 +22,11 @@ app.controller('loginCtrl',['httpService','$scope','$location','curUserService',
 				        });
 				      }
 
-				});  
+				});
 			});
-		
+
 	}
-	
+
 
 	var encrypt = function(pwd){
 		RSAUtils.setMaxDigits(200);
@@ -44,7 +45,7 @@ app.controller('loginCtrl',['httpService','$scope','$location','curUserService',
 				param.password = encrypt($scope.login.userPassword);
 		    	curUserService.doLogin(param);
 		});
-	 
+
 	}
 	$scope.changePassword = function(){
 

@@ -1,6 +1,6 @@
 'use strict';
 app.service('httpService',['$http','Config',function($http,configs){
-
+//封装HTTP请求，设置请求的格式
     function getUrl(url){
         return configs.serverUrl+url;
     }
@@ -23,6 +23,7 @@ app.service('httpService',['$http','Config',function($http,configs){
             return $http['delete'](url, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
         },
     }
+    //把登录信息封装发往后台，并做结果处理
 }]).service('curUserService',['httpService','Config','$state','Popup',function(httpService,config,$state,Popup){
   var curUser = {};
   var rememberMe = false;
@@ -80,6 +81,7 @@ app.service('httpService',['$http','Config',function($http,configs){
   this.getRemeberMe = function (){
     return rememberMe;
   }
+  //未登录时帮助服务阅读书籍，无任何处理
 }]).service('fileTransferHelper',['curUserService',function(curUserService){
   var param={};
   this.setter = function(p){

@@ -4,19 +4,19 @@ app.controller('bookshelfCtrl',['$scope','httpService','curUserService','localSt
     var curUser = curUserService.getCurUser(),page=1;
      $scope.books = [];
     $scope.noMoreItemsAvailable = false;
-    $scope.isLogined = curUserService.getIsLogined();
+
+
     $scope.files=[];
 
     $scope.viewBook = function(i,eve) {
-        if($scope.isLogined){
+        if(curUserService.getIsLogined()){
           return;
         }
        fileTransferHelper.setter($scope.files[i]);
       $state.go('login.bookshelf.view');
     }
     var loadFromLocalStorage = function(){
-      console.log($scope.isLogined);
-      if($scope.isLogined){
+      if(curUserService.getIsLogined()){
         loadByUid(curUser.uid);
       }else{
         var locals = localStorage.getObject('bookshelfItems');
@@ -45,7 +45,8 @@ app.controller('bookshelfCtrl',['$scope','httpService','curUserService','localSt
       });
     }
     $scope.loadFiles= function(files){
-      if(!$scope.isLogined){
+      console.log(curUserService.getIsLogined());
+      if(!curUserService.getIsLogined()){
         addToLocals(files);
         var books = localStorage.getObject('bookShelfItem');
         $scope.books = $scope.books.concat(books);
@@ -66,6 +67,12 @@ app.controller('bookshelfCtrl',['$scope','httpService','curUserService','localSt
        if (files && files.length) {
          Upload.upload({
            url: configs.serverUrl+'/bookShelf/upload',
+           headers:{
+             'Access-Control-Allow-origin': '*',
+             'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+             'Access-Control-Allow-Headers': 'Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With',
+
+           },
            data: {
              files: files,
              uid: '-1'

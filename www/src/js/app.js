@@ -4,6 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
+//第三方库引入，通过angular.module
 var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-popups','ionic-datepicker','ngDialog'])
 
 .run(function($ionicPlatform,$location,$rootScope,$ionicHistory,$timeout,$cordovaToast) {
@@ -16,7 +17,7 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
       cordova.plugins.Keyboard.disableScroll(true);
     }
 
-    if (window.StatusBar) { 
+    if (window.StatusBar) {
       StatusBar.styleDefault();
     }
   });
@@ -32,8 +33,8 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
           $rootScope.backButtonPressedOnceToExit = false;
         }, 2000);
       }
-    } else if ($ionicHistory.backView()) {      
-        $ionicHistory.goBack();       
+    } else if ($ionicHistory.backView()) {
+        $ionicHistory.goBack();
     } else {
       $rootScope.backButtonPressedOnceToExit = true;
       $cordovaToast.showShortBottom('再按一次退出系统');
@@ -83,7 +84,7 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
     url: '/changepassword/:account',
     templateUrl: 'views/login_changepassword.html',
     controller: 'navsCtrl'
-  })  
+  })
   .state('app', {
     url: '/app',
     abstract: true,
@@ -181,14 +182,16 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
   PopupProvider.okValue = '确定';
   PopupProvider.cancelValue = '取消';
   $httpProvider.defaults.withCredentials = true;
+
+  //拦截请求，如果错误就给予提示
   $httpProvider.interceptors.push(
     ['$q', '$injector',function($q, $injector){
     return {
-        request: function (config) { 
+        request: function (config) {
             var requestUrl = config.url;
-            var $location = $injector.get('$location'); 
+            var $location = $injector.get('$location');
             var absUrl = $location.absUrl();
-            
+
             return config;
         },
         requestError: function(rejection) {
@@ -220,7 +223,7 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
                 }catch(e){}
             }else{
                popup.alert('您还没有登录，请先登录',function(){
-                 $state.go('login.signin');                
+                 $state.go('login.signin');
               });
            }
             return $q.reject(rejection);
