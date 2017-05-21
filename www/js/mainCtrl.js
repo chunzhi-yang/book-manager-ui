@@ -1,1 +1,1 @@
-app.controller("mainCtrl",["$scope","curUserService",function($scope,curUserService){$scope.darkTheme=curUserService.getDarkTheme(),$scope.isLogined=curUserService.getIsLogined(),$scope.logout=function(){curUserService.doLogout()}}]);
+app.controller("mainCtrl",["$rootScope","$scope","curUserService",function($rootScope,$scope,curUserService){console.log($rootScope.darkTheme),$scope.logout=function(){curUserService.doLogout()}}]);

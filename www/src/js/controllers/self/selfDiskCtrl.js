@@ -1,19 +1,22 @@
-app.controller('selfDiskCtrl', ['$scope','httpService','curUserService','Config','Upload','$timeout',
-  function($scope, httpService,curUserService,configs,Upload,$timeout) {
+app.controller('selfDiskCtrl', ['$scope','httpService','$rootScope','Config','Upload','$timeout',
+  function($scope, httpService, $rootScope,configs,Upload,$timeout) {
 
-  var user = curUserService.getCurUser();
-  $scope.books = [];
-  $scope.isLogined = true;
+
+    $scope.books = [];
+    $scope.filePrefix = configs.filePrefix;
+    $scope.loading = false;
     $scope.doRefresh =function(){
       $scope.userFiles();
     }
   $scope.userFiles = function() {
-    var param = {uid: user.uid};
+    var param = {uid: $rootScope.curUser.uid};
+    $scope.loading = true;
     httpService.post('app/userFiles', param).success(function (d) {
 
       if (d.length > 0) {
         loadBooks(d);
       }
+      $scope.loading = false;
       $scope.$broadcast('scroll.refreshComplete');
     });
   }
@@ -40,7 +43,7 @@ app.controller('selfDiskCtrl', ['$scope','httpService','curUserService','Config'
         url: configs.serverUrl+'/bookShelf/upload',
         data: {
           files: files,
-          uid: user.uid
+          uid: $rootScope.curUser.uid
         }
       }).then(function (response) {
         $timeout(function () {

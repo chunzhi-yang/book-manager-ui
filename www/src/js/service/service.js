@@ -1,5 +1,5 @@
 'use strict';
-app.service('httpService',['$http','Config',function($http,configs){
+app.service('httpService',['$http','Config','$q',function($http,configs,$q){
 //封装HTTP请求，设置请求的格式
     function getUrl(url){
         return configs.serverUrl+url;
@@ -14,30 +14,59 @@ app.service('httpService',['$http','Config',function($http,configs){
             url=getUrl(url);
             return $http.get(url,angular.extend({},{headers: {'Content-Type': 'application/x-www-form-urlencoded'}},config));
         },
-        put:function(url, param){
-            url=getUrl(url);
-            return $http.post(url, JSON.stringify(param), {headers: {'Content-Type': 'application/json'}});
-        },
-        'delete':function(url){
-            url=getUrl(url);
-            return $http['delete'](url, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
-        },
+      put:function(url, param){
+        url=getUrl(url);
+        return $http.put(url, param, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
+      },
+      'delete':function(url){
+        url=getUrl(url);
+        return $http['delete'](url, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
+      },
+      createObject:function(url,param){
+        url=getUrl(url);
+        var defer = $q.defer();
+        $http.post(url, JSON.stringify(param), {headers: {'Content-Type': 'application/json'}}).then(function(d){
+          if(d.data!=0){
+            defer.resolve(d);
+          }else{
+            defer.reject('0行记录被添加');
+          }
+        },function(e){
+          if(e&&e.data){
+            defer.reject(e.data);
+          }else{
+            defer.reject({
+              message:'添加失败'
+            });
+          }
+
+        });
+        return defer.promise;
+      },
+      updateObject:function(url,param){
+        url=getUrl(url);
+        var defer = $q.defer();
+        $http.put(url, JSON.stringify(param), {headers: {'Content-Type': 'application/json'}}).then(function(d){
+          if(d.data!=0){
+            defer.resolve(d);
+          }else{
+            defer.reject('0行记录被修改');
+          }
+        },function(e){
+          if(e&&e.data){
+            defer.reject(e.data);
+          }else{
+            defer.reject({
+              message:'修改失败'
+            });
+          }
+        });
+        return defer.promise;
+      },
     }
     //把登录信息封装发往后台，并做结果处理
-}]).service('curUserService',['httpService','Config','$state','Popup',function(httpService,config,$state,Popup){
-  var curUser = {};
-  var rememberMe = false;
-  var isLogined = false;
-  var darkTheme = false;
-  this.getIsLogined = function(){
-    return isLogined;
-  }
-  this.setDarkTheme = function(t){
-    darkTheme = t;
-  }
-  this.getDarkTheme = function(){
-    return darkTheme;
-  }
+}]).service('curUserService',['httpService','Config','$rootScope','$state','Popup',function(httpService,config,$rootScope,$state,Popup){
+
   this.doLogin = function(params){
     var promise =httpService.post( '/login/signin', params);
     promise.then(function (d) {
@@ -49,9 +78,9 @@ app.service('httpService',['$http','Config',function($http,configs){
           if (!data.imgPath ){
             data.imgPath = data.sex ==0?'img/thumbnail-male.png':'img/thumbnail-female.png';
           }
-          curUser = data;
-          isLogined = true;
-          rememberMe = params.rememberMe;
+          $rootScope.curUser = data;
+          $rootScope.isLogined = true;
+          $rootScope.rememberMe = params.rememberMe;
           $state.go("app.self.index");
         });
 
@@ -62,25 +91,13 @@ app.service('httpService',['$http','Config',function($http,configs){
     });
   }
   this.doLogout = function(){
-    isLogined = false;
-    curUser = {};
+    $rootScope.isLogined = false;
+    $rootScope.curUser = {};
     httpService.post('login/logout').success(function(d){
       $state.go('login.signin');
     });
   }
 
-
-  this.getCurUser =function (){
-    return curUser;
-  }
-  this.setCurUser =function (user){
-    curUser={};
-    curUser = user;
-  }
-
-  this.getRemeberMe = function (){
-    return rememberMe;
-  }
   //未登录时帮助服务阅读书籍，无任何处理
 }]).service('fileTransferHelper',['curUserService',function(curUserService){
   var param={};

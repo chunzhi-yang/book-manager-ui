@@ -1,7 +1,7 @@
-app.controller('selfOrderCtrl', ['$scope','httpService','curUserService','Config',
-  function($scope, httpService,curUserService,config) {
+app.controller('selfOrderCtrl', ['$scope','httpService','$rootScope','Config',
+  function($scope, httpService,$rootScope,config) {
 
-  var user = curUserService.getCurUser(),page=1;
+  var user = $rootScope.curUser,page=1;
        $scope.usingAccount = user.userName;
        $scope.usingAvatar = config.imgPrefix + user.imgPath;
       $scope.usingUid = user.uid;

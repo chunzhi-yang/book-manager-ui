@@ -1,12 +1,15 @@
-app.controller('selfAccountCtrl', ['$scope','httpService','curUserService','Config','ngDialog','Popup','$stateParams',
-  function($scope, httpService,curUserService,config,ngDialog,Popup,$stateParams) {
+app.controller('selfAccountCtrl', ['$scope','httpService','$rootScope','Config','ngDialog','Popup','$stateParams',
+  function($scope, httpService,$rootScope,config,ngDialog,Popup,$stateParams) {
 
-  var user = curUserService.getCurUser();
-      $scope.usingUid = user.uid;
+    $scope.user = $rootScope.curUser; 
       $scope.loadAccount = function(){
-          httpService.post('userAccount/'+user.uid).success(function(d){
-              $scope.account = d;
-          });
+         if($stateParams.uid){
+             $scope.loadLogs();
+          }else{
+            httpService.post('userAccount/'+$scope.user.uid).success(function(d){
+                $scope.account = d;
+            });
+          }
       }
     $scope.openModal = function() {
       var dlg = ngDialog.open({
@@ -52,9 +55,5 @@ app.controller('selfAccountCtrl', ['$scope','httpService','curUserService','Conf
         });
     }
 
-    if($stateParams.uid){
-      $scope.loadLogs();
-    }else{
-
-    }
+   $scope.loadAccount();
 }]);

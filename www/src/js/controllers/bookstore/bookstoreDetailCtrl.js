@@ -1,7 +1,7 @@
 app.controller('bookstoreDetailCtrl',['$scope','httpService','$location','$stateParams','Popup',
-  'Config','ngDialog','curUserService','$cordovaSocialSharing',
+  'Config','ngDialog','$rootScope','$cordovaSocialSharing',
   function($scope,httpService,$location,$stateParams,Popup,config,ngDialog,
-           curUserService,$cordovaSocialSharing){
+           $rootScope,$cordovaSocialSharing){
     httpService.post('books/'+$stateParams.id)
       .success(function(d){
 
@@ -9,7 +9,7 @@ app.controller('bookstoreDetailCtrl',['$scope','httpService','$location','$state
           $scope.book = d;
           loadChapters();
       });
-    var user = curUserService.getCurUser();
+    var user = $rootScope.curUser;
     $scope.usingAccount = user.userName;
     $scope.usingAvatar = config.imgPrefix + user.imgPath;
     $scope.usingUid = user.uid;

@@ -1,4 +1,4 @@
-// Ionic Starter App
+﻿// Ionic Starter App
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
@@ -81,9 +81,9 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
     controller: 'loginCtrl'
   })
   .state('login.changepassword', {
-    url: '/changepassword/:account',
+    url: '/changepassword',
     templateUrl: 'views/login_changepassword.html',
-    controller: 'navsCtrl'
+    controller: 'loginCtrl'
   })
   .state('app', {
     url: '/app',
@@ -176,7 +176,7 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
         controller: 'selfEditCtrl'
       });
 
-  $urlRouterProvider.otherwise('/app/bookshelf/index');
+  $urlRouterProvider.otherwise('/app/bookstore/index');
 }]).config(['PopupProvider','$httpProvider',function (PopupProvider,$httpProvider) {
   PopupProvider.title = '提示';
   PopupProvider.okValue = '确定';
@@ -191,14 +191,12 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
             var requestUrl = config.url;
             var $location = $injector.get('$location');
             var absUrl = $location.absUrl();
-
             return config;
         },
         requestError: function(rejection) {
             return $q.reject(rejection);
         },
         response: function (response) {
-
             return response;
         },
         responseError: function(rejection) {
@@ -222,7 +220,7 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
 
                 }catch(e){}
             }else{
-               popup.alert('您还没有登录，请先登录',function(){
+               popup.alert('您没有足够的权限',function(){
                  $state.go('login.signin');
               });
            }
