@@ -4,10 +4,8 @@ app.controller('bookshelfViewCtrl',['$window','$scope','httpService','ngDialog',
 
     $scope.fontSize = '12';
     $scope.chapterIndex = 0;
-    var isLogined = $rootScope.isLogined,
-      colors = ['#11c1f3','#33cd5f','#ffc900','#444444','#f8f8f8'],
+    var colors = ['#11c1f3','#33cd5f','#ffc900','#444444','#f8f8f8'],
       sliceIndex=1;
-    $scope.isLogined = isLogined;
     $scope.noMoreItemsAvailable = false;
 
     function getItemSize(){
@@ -113,7 +111,6 @@ app.controller('bookshelfViewCtrl',['$window','$scope','httpService','ngDialog',
               $scope.textContent = d;
           });
       $scope.loading = false;
-      $scope.$broadcast('scroll.refreshComplete');
       $scope.$broadcast('scroll.infiniteScrollComplete');
     }
     $scope.loadContentMore = function(){
@@ -156,16 +153,17 @@ app.controller('bookshelfViewCtrl',['$window','$scope','httpService','ngDialog',
     $scope.doRefresh = function() {
       if($scope.chapterIndex == 0){
         $scope.noMoreItemsAvailable = true;
+        $scope.$broadcast('scroll.refreshComplete');
         return;
       }
       $scope.chapterIndex --;
       $scope.loadContent();
-
+      $scope.$broadcast('scroll.refreshComplete');
     }
 
     $scope.initCtrl = function(){
       $scope.textContent = '';
-      if($scope.isLogined){
+      if($rootScope.isLogined){
         loadChapters();
       }else{
         $scope.bookFile = fileTransferHelper.getter();

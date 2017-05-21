@@ -16,7 +16,7 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
       cordova.plugins.Keyboard.disableScroll(true);
     }
 
-    if (window.StatusBar) { 
+    if (window.StatusBar) {
       StatusBar.styleDefault();
     }
   });
@@ -32,8 +32,8 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
           $rootScope.backButtonPressedOnceToExit = false;
         }, 2000);
       }
-    } else if ($ionicHistory.backView()) {      
-        $ionicHistory.goBack();       
+    } else if ($ionicHistory.backView()) {
+        $ionicHistory.goBack();
     } else {
       $rootScope.backButtonPressedOnceToExit = true;
       $cordovaToast.showShortBottom('再按一次退出系统');
@@ -83,7 +83,7 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
     url: '/changepassword',
     templateUrl: 'views/login_changepassword.html',
     controller: 'loginCtrl'
-  })  
+  })
   .state('app', {
     url: '/app',
     abstract: true,
@@ -175,7 +175,7 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
         controller: 'selfEditCtrl'
       });
 
-  $urlRouterProvider.otherwise('/app/bookshelf/index');
+  $urlRouterProvider.otherwise('/app/bookstore/index');
 }]).config(['PopupProvider','$httpProvider',function (PopupProvider,$httpProvider) {
   PopupProvider.title = '提示';
   PopupProvider.okValue = '确定';
@@ -184,10 +184,10 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
   $httpProvider.interceptors.push(
     ['$q', '$injector',function($q, $injector){
     return {
-        request: function (config) { 
+        request: function (config) {
             var requestUrl = config.url;
-            var $location = $injector.get('$location'); 
-            var absUrl = $location.absUrl(); 
+            var $location = $injector.get('$location');
+            var absUrl = $location.absUrl();
             return config;
         },
         requestError: function(rejection) {
@@ -218,7 +218,7 @@ var app=angular.module('starter', ['ionic', 'ngFileUpload','ngCordova','angular-
                 }catch(e){}
             }else{
                popup.alert('您没有足够的权限',function(){
-                 $state.go('login.signin');                
+                 $state.go('login.signin');
               });
            }
             return $q.reject(rejection);

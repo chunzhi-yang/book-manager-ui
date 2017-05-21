@@ -1,5 +1,5 @@
 'use strict';
-app.service('httpService',['$http','Config',function($http,configs){
+app.service('httpService',['$http','Config','$q',function($http,configs,$q){
 
     function getUrl(url){
         return configs.serverUrl+url;
@@ -14,14 +14,55 @@ app.service('httpService',['$http','Config',function($http,configs){
             url=getUrl(url);
             return $http.get(url,angular.extend({},{headers: {'Content-Type': 'application/x-www-form-urlencoded'}},config));
         },
-        put:function(url, param){
-            url=getUrl(url);
-            return $http.put(url, JSON.stringify(param), {headers: {'Content-Type': 'application/json'}});
-        },
-        'delete':function(url){
-            url=getUrl(url);
-            return $http['delete'](url, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
-        },
+      put:function(url, param){
+        url=getUrl(url);
+        return $http.put(url, param, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
+      },
+      'delete':function(url){
+        url=getUrl(url);
+        return $http['delete'](url, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
+      },
+      createObject:function(url,param){
+        url=getUrl(url);
+        var defer = $q.defer();
+        $http.post(url, JSON.stringify(param), {headers: {'Content-Type': 'application/json'}}).then(function(d){
+          if(d.data!=0){
+            defer.resolve(d);
+          }else{
+            defer.reject('0行记录被添加');
+          }
+        },function(e){
+          if(e&&e.data){
+            defer.reject(e.data);
+          }else{
+            defer.reject({
+              message:'添加失败'
+            });
+          }
+
+        });
+        return defer.promise;
+      },
+      updateObject:function(url,param){
+        url=getUrl(url);
+        var defer = $q.defer();
+        $http.put(url, JSON.stringify(param), {headers: {'Content-Type': 'application/json'}}).then(function(d){
+          if(d.data!=0){
+            defer.resolve(d);
+          }else{
+            defer.reject('0行记录被修改');
+          }
+        },function(e){
+          if(e&&e.data){
+            defer.reject(e.data);
+          }else{
+            defer.reject({
+              message:'修改失败'
+            });
+          }
+        });
+        return defer.promise;
+      },
     }
 }]).service('curUserService',['httpService','Config','$rootScope','$state','Popup',function(httpService,config,$rootScope,$state,Popup){
 

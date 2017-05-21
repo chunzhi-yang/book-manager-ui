@@ -4,14 +4,14 @@
   </ion-header-bar>
 
   <ion-content  padding="true">
-    <ion-refresher ng-if="isLogined"
+    <ion-refresher  ng-if="isLogined"
       pulling-text="下拉加载上一章节..."
       on-refresh="doRefresh()">
     </ion-refresher>
 	  <div ng-click="operateModal()" ng-if="isLogined" ng-style="{
       'font-family':'Verdana,Arial,Helvetica,sans-serif,Consolas',
       'font-size': fontSize+'px',
-
+      'background-color': backdrop,
       'line-height': 2.0,
       'padding': '30px 10px'}" jxb-bind-compiled-html="textContent">
 

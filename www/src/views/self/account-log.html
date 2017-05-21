@@ -18,7 +18,7 @@
     <div class="item item-borderless card light-bg"
          collection-repeat="item in logs"
          item-width="'95%'"   item-height="30px" style="line-height:1.5">
-      <span class="col-offset-10">{{item.changeTime|date:'yyyy-MM-dd'}}</span>
+      <span>{{item.changeTime|date:'yyyy-MM-dd'}}</span>
       <span class="col-offset-10">{{item.changeType==0?'充值':'支付'}}</span>
       <span class="col-offset-10">{{item.beforeRemain}}</span>
       <span class="col-offset-20 ">{{item.afterRemain}}</span>

@@ -57,7 +57,7 @@ app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateP
       if(!$scope.file){
         var param = $scope.userInfo;
         delete param.imgPath;
-        httpService.put('user/update',param).success(function(d){
+        httpService.updateObject('user/update',param).then(function(d){
           loadUser();
         });
         return;
@@ -77,10 +77,10 @@ app.controller('selfEditCtrl',['$scope','Upload','httpService','$state','$stateP
       }).success(function (data, status, headers, config) {
 
         $scope.userInfo.imgPath = configs.imgPrefix +data;
-        httpService.post('user/update',$scope.userInfo).success(function(d){
+        httpService.updateObject('user/update',$scope.userInfo).then(function(d){
           loadUser();
 
-        })
+        });
         console.log('文件'+config.file.name+'上传成功');
       });
     }

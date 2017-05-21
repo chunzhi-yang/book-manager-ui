@@ -1,23 +1,22 @@
 app.controller('bookshelfCtrl',['$scope','httpService','$rootScope','localStorage','Upload','$timeout','Popup','fileTransferHelper','$state','Config',
 	function($scope, httpService,$rootScope,localStorage,Upload,$timeout,Popup,fileTransferHelper,$state,configs) {
 
-    var curUser = $rootScope.curUser,page=1;
+     $scope.curUser = $rootScope.curUser;
+    var page=1;
      $scope.books = [];
     $scope.noMoreItemsAvailable = false;
-    $scope.isLogined = $rootScope.isLogined;
     $scope.files=[];
 
     $scope.viewBook = function(i,eve) {
-        if($scope.isLogined){
+        if($rootScope.isLogined){
           return;
         }
        fileTransferHelper.setter($scope.files[i]);
       $state.go('login.bookshelf.view');
     }
     var loadFromLocalStorage = function(){
-      console.log($scope.isLogined);
-      if($scope.isLogined){
-        loadByUid(curUser.uid);
+      if($rootScope.isLogined){
+        loadByUid($scope.curUser.uid);
       }else{
         var locals = localStorage.getObject('bookshelfItems');
         for(var local in locals){
@@ -45,7 +44,7 @@ app.controller('bookshelfCtrl',['$scope','httpService','$rootScope','localStorag
       });
     }
     $scope.loadFiles= function(files){
-      if(!$scope.isLogined){
+      if(!$rootScope.isLogined){
         addToLocals(files);
         var books = localStorage.getObject('bookShelfItem');
         $scope.books = $scope.books.concat(books);
@@ -88,15 +87,15 @@ app.controller('bookshelfCtrl',['$scope','httpService','$rootScope','localStorag
     var insertBookShelf = function(books){
         var params = [];
         angular.forEach(books,function(book){
-          var  bookShelf = {booksId:book.booksId,uid:curUser.uid};
+          var  bookShelf = {booksId:book.booksId,uid:$scope.curUser.uid};
           params.push(bookShelf);
         });
         var page = {data:params};
-   
-        httpService.put('bookShelf/createBatch',page).success(function(d){
-          if(d > 0){
+
+        httpService.createObject('bookShelf/createBatch',page).then(function(d){
+          if(d.data > 0){
             Popup.alert('导入成功!');
-            loadByUid(curUser.uid);
+            loadByUid($scope.curUser.uid);
           }
         });
     }

@@ -4,16 +4,19 @@ app.controller('selfDiskCtrl', ['$scope','httpService','$rootScope','Config','Up
 
     $scope.books = [];
     $scope.filePrefix = configs.filePrefix;
+    $scope.loading = false;
     $scope.doRefresh =function(){
       $scope.userFiles();
     }
   $scope.userFiles = function() {
     var param = {uid: $rootScope.curUser.uid};
+    $scope.loading = true;
     httpService.post('app/userFiles', param).success(function (d) {
 
       if (d.length > 0) {
         loadBooks(d);
       }
+      $scope.loading = false;
       $scope.$broadcast('scroll.refreshComplete');
     });
   }

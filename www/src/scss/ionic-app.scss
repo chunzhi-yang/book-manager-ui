@@ -23,5 +23,12 @@ $ionicons-font-path: "www/lib/ionic/fonts" !default;
 .modal-backdrop, .modal-backdrop-bg{
   height: 40%;
 }
+.cover{
+  position: fixed;
+  top: 0;
+  left: 0;
+  outline:5000px solid rgba(20, 20, 20, 0.5);
+  z-index: 99999;
+}
 
 

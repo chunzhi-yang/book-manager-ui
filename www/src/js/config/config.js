@@ -1,7 +1,7 @@
 ﻿app.constant('Config',{
 	serverUrl:'http://127.0.0.1:8080/book-manager-api/',
     imgPrefix:'http://127.0.0.1:8080/book-manager-api/app/downloadAvatar?url=',
-    filePrefix:'http://127.0.0.1:8080/book-manager-api/app/downloadFile?id='
+    filePrefix:'http://127.0.0.1:8080/book-manager-api/app/downloadBooks?id='
 });
 app.config(function (ionicDatePickerProvider) {
   var datePickerObj = {
